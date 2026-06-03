@@ -1,0 +1,2048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Angel Market AI Pro — Trade Before the Crowd</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #060709;
+  --surface: #0c0e13;
+  --surface2: #12151c;
+  --surface3: #181c25;
+  --gold: #d4a843;
+  --gold2: #f2c96a;
+  --gold-dim: rgba(212,168,67,0.10);
+  --gold-glow: rgba(212,168,67,0.18);
+  --green: #22c55e;
+  --green-dim: rgba(34,197,94,0.10);
+  --red: #ef4444;
+  --purple: #8b5cf6;
+  --purple-dim: rgba(139,92,246,0.10);
+  --blue: #3b82f6;
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --text3: #475569;
+  --border: rgba(255,255,255,0.06);
+  --border2: rgba(255,255,255,0.11);
+  --font-head: 'Bebas Neue', sans-serif;
+  --font: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ── NOISE TEXTURE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(6,7,9,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 5vw;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.nav-icon {
+  width: 32px; height: 32px;
+  background: var(--gold);
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  font-size: 18px;
+  color: #060709;
+  letter-spacing: 0;
+}
+.nav-title {
+  font-family: var(--font-head);
+  font-size: 20px;
+  letter-spacing: 0.06em;
+  color: var(--text);
+}
+.nav-title span { color: var(--gold); }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text2);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 0.15s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 22px;
+  border-radius: 6px;
+  background: var(--gold);
+  color: #060709;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: background 0.15s;
+}
+.nav-cta:hover { background: var(--gold2); }
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 5vw 80px;
+  overflow: hidden;
+}
+
+/* Grid lines background */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(212,168,67,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212,168,67,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+/* Radial glow */
+.hero-glow {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(212,168,67,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(212,168,67,0.25);
+  background: rgba(212,168,67,0.06);
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
+}
+.eyebrow-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: blink 2s infinite;
+}
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:.2} }
+
+.hero-h1 {
+  font-family: var(--font-head);
+  font-size: clamp(60px, 10vw, 120px);
+  line-height: 0.92;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+.hero-h1 .gold { color: var(--gold); }
+.hero-h1 .stroke {
+  -webkit-text-stroke: 1px rgba(212,168,67,0.4);
+  color: transparent;
+}
+
+.hero-sub {
+  font-size: clamp(16px, 2vw, 20px);
+  font-weight: 300;
+  color: var(--text2);
+  max-width: 600px;
+  margin: 24px auto 40px;
+  line-height: 1.65;
+  position: relative;
+  z-index: 1;
+}
+.hero-sub strong { color: var(--text); font-weight: 500; }
+
+.hero-btns {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+.btn-primary {
+  font-size: 15px;
+  font-weight: 600;
+  padding: 14px 34px;
+  border-radius: 8px;
+  background: var(--gold);
+  color: #060709;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: all 0.15s;
+  border: none;
+  cursor: pointer;
+}
+.btn-primary:hover { background: var(--gold2); transform: translateY(-1px); }
+.btn-ghost {
+  font-size: 15px;
+  font-weight: 500;
+  padding: 14px 34px;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  border: 1px solid var(--border2);
+  transition: all 0.15s;
+  cursor: pointer;
+}
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+/* STATS ROW */
+.hero-stats {
+  display: flex;
+  gap: 48px;
+  justify-content: center;
+  margin-top: 64px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+.stat-item { text-align: center; }
+.stat-num {
+  font-family: var(--font-head);
+  font-size: 42px;
+  letter-spacing: 0.03em;
+  color: var(--gold2);
+  line-height: 1;
+}
+.stat-lbl {
+  font-size: 12px;
+  color: var(--text3);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* TICKER TAPE */
+.tape-wrap {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  overflow: hidden;
+  padding: 10px 0;
+  position: relative;
+  z-index: 2;
+}
+.tape {
+  display: flex;
+  gap: 0;
+  animation: scroll 30s linear infinite;
+  width: max-content;
+}
+@keyframes scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.tape-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 28px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  border-right: 1px solid var(--border);
+  white-space: nowrap;
+}
+.tape-sym { color: var(--text); font-weight: 500; }
+.tape-price { color: var(--text2); }
+.tape-chg { font-weight: 500; }
+.tape-up { color: var(--green); }
+.tape-dn { color: var(--red); }
+
+/* ── SECTIONS ── */
+section { position: relative; z-index: 1; }
+
+.section-label {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.section-h2 {
+  font-family: var(--font-head);
+  font-size: clamp(38px, 6vw, 72px);
+  letter-spacing: 0.03em;
+  line-height: 0.95;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+.section-h2 .gold { color: var(--gold); }
+.section-h2 .muted { color: var(--text3); }
+.section-desc {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--text2);
+  max-width: 540px;
+  line-height: 1.7;
+}
+
+/* ── EDGE SECTION ── */
+.edge-section {
+  padding: 100px 5vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.edge-signals {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.signal-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  transition: border-color 0.2s;
+}
+.signal-row:hover { border-color: var(--border2); }
+.signal-icon {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.sig-gold { background: rgba(212,168,67,0.12); }
+.sig-green { background: rgba(34,197,94,0.10); }
+.sig-purple { background: rgba(139,92,246,0.10); }
+.sig-blue { background: rgba(59,130,246,0.10); }
+.sig-red { background: rgba(239,68,68,0.10); }
+.signal-content {}
+.signal-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+.signal-desc {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.55;
+}
+
+/* ── FEATURES GRID ── */
+.features-section {
+  padding: 100px 5vw;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.features-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+.features-header .section-desc { margin: 0 auto; }
+
+.feat-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.feat-cat-title {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.feat-cat-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border2);
+}
+.feat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+.feat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  transition: all 0.15s;
+}
+.feat-card:hover {
+  border-color: var(--border2);
+  background: var(--surface2);
+}
+.feat-check {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--green-dim);
+  border: 1px solid rgba(34,197,94,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  font-size: 10px;
+  color: var(--green);
+}
+.feat-text {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.5;
+}
+.feat-text strong { color: var(--text); font-weight: 500; }
+
+/* HIGHLIGHT CARD */
+.feat-card.highlight {
+  border-color: rgba(212,168,67,0.2);
+  background: rgba(212,168,67,0.04);
+}
+.feat-card.highlight .feat-check {
+  background: var(--gold-dim);
+  border-color: rgba(212,168,67,0.3);
+  color: var(--gold);
+}
+
+/* ── PRICING ── */
+.pricing-section {
+  padding: 100px 5vw;
+  text-align: center;
+}
+.pricing-header { margin-bottom: 56px; }
+.pricing-header .section-desc { margin: 0 auto; }
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.price-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 32px 28px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+.price-card.featured {
+  border-color: rgba(212,168,67,0.35);
+  background: linear-gradient(160deg, rgba(212,168,67,0.06) 0%, var(--surface) 60%);
+}
+.price-card.featured::before {
+  content: 'MOST POPULAR';
+  position: absolute;
+  top: 16px; right: -28px;
+  background: var(--gold);
+  color: #060709;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  padding: 4px 36px;
+  transform: rotate(45deg);
+  transform-origin: center;
+}
+.plan-name {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 12px;
+}
+.plan-price {
+  font-family: var(--font-head);
+  font-size: 52px;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.plan-price span {
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--text3);
+}
+.plan-desc {
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 24px;
+  line-height: 1.55;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.plan-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  margin-bottom: 28px;
+}
+.plan-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.45;
+}
+.plan-features li::before {
+  content: '✓';
+  color: var(--green);
+  font-size: 12px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.plan-features li.dim::before { content: '—'; color: var(--text3); }
+.plan-features li.dim { color: var(--text3); }
+.plan-btn {
+  width: 100%;
+  padding: 13px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  border: 1px solid var(--border2);
+  background: transparent;
+  color: var(--text);
+  transition: all 0.15s;
+}
+.plan-btn:hover { border-color: var(--gold); color: var(--gold); }
+.plan-btn.primary {
+  background: var(--gold);
+  color: #060709;
+  border-color: var(--gold);
+}
+.plan-btn.primary:hover { background: var(--gold2); }
+
+/* ── DISCLAIMER ── */
+.disclaimer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 24px 5vw;
+  text-align: center;
+}
+.disclaimer p {
+  font-size: 12px;
+  color: var(--text3);
+  line-height: 1.65;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.disclaimer strong { color: var(--text2); }
+
+/* ── CTA ── */
+.cta-section {
+  padding: 100px 5vw;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 300px;
+  background: radial-gradient(ellipse, rgba(212,168,67,0.10) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta-section .section-h2 { margin-bottom: 20px; }
+.cta-section .section-desc { margin: 0 auto 40px; }
+.cta-note {
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--text3);
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 5vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-logo {
+  font-family: var(--font-head);
+  font-size: 18px;
+  letter-spacing: 0.06em;
+  color: var(--text2);
+}
+.footer-logo span { color: var(--gold); }
+.footer-copy {
+  font-size: 12px;
+  color: var(--text3);
+}
+
+/* ── ALERT BADGE ── */
+.alert-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  background: rgba(139,92,246,0.12);
+  color: var(--purple);
+  border: 1px solid rgba(139,92,246,0.25);
+  border-radius: 20px;
+  padding: 4px 12px;
+  margin-bottom: 16px;
+}
+
+/* DIVIDER */
+.divider {
+  height: 1px;
+  background: var(--border);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .edge-section { grid-template-columns: 1fr; gap: 48px; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: 32px; }
+  .nav-links { display: none; }
+  .hero-h1 { font-size: 64px; }
+}
+
+/* ── FREE TRIAL BADGE ── */
+.trial-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(34,197,94,0.06));
+  color: var(--green);
+  border: 1px solid rgba(34,197,94,0.35);
+  border-radius: 20px;
+  padding: 6px 16px;
+  margin-bottom: 20px;
+  animation: trialPulse 3s infinite;
+}
+@keyframes trialPulse {
+  0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,0.2)}
+  50%{box-shadow:0 0 0 8px rgba(34,197,94,0)}
+}
+.trial-badge-dot { width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 1.5s infinite; }
+
+/* ── FREE TRIAL PRICE CARD ── */
+.price-card.trial-card {
+  border-color: rgba(34,197,94,0.4);
+  background: linear-gradient(160deg, rgba(34,197,94,0.07) 0%, var(--surface) 60%);
+  order: -1;
+}
+.price-card.trial-card::before {
+  content: '14-DAY FREE TRIAL';
+  position: absolute;
+  top: 16px; right: -32px;
+  background: var(--green);
+  color: #060709;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  padding: 4px 40px;
+  transform: rotate(45deg);
+  transform-origin: center;
+}
+.trial-price-box {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.trial-free {
+  font-family: var(--font-head);
+  font-size: 52px;
+  letter-spacing: 0.02em;
+  color: var(--green);
+  line-height: 1;
+}
+.trial-then {
+  font-size: 12px;
+  color: var(--text3);
+  font-family: var(--font);
+}
+.trial-countdown {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--green);
+  background: rgba(34,197,94,0.08);
+  border: 1px solid rgba(34,197,94,0.2);
+  border-radius: 6px;
+  padding: 6px 12px;
+  margin-bottom: 18px;
+}
+.plan-btn.trial-btn {
+  background: var(--green);
+  color: #060709;
+  border-color: var(--green);
+  font-weight: 700;
+}
+.plan-btn.trial-btn:hover { background: #16a34a; }
+
+/* ── TRIAL MODAL ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(8px);
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--surface);
+  border: 1px solid rgba(34,197,94,0.3);
+  border-radius: 16px;
+  padding: 40px 36px;
+  max-width: 460px;
+  width: 100%;
+  position: relative;
+  text-align: center;
+}
+.modal-glow {
+  position: absolute;
+  top: -60px; left: 50%;
+  transform: translateX(-50%);
+  width: 300px; height: 200px;
+  background: radial-gradient(ellipse, rgba(34,197,94,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.modal-close {
+  position: absolute;
+  top: 14px; right: 16px;
+  background: none;
+  border: none;
+  color: var(--text3);
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1;
+  transition: color .15s;
+}
+.modal-close:hover { color: var(--text); }
+.modal-icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+  display: block;
+}
+.modal-h {
+  font-family: var(--font-head);
+  font-size: 36px;
+  letter-spacing: 0.03em;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.modal-h span { color: var(--green); }
+.modal-sub {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+.modal-features {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 28px;
+  text-align: left;
+}
+.modal-feat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text2);
+}
+.modal-feat::before {
+  content: '✓';
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.modal-form { display: flex; flex-direction: column; gap: 12px; }
+.modal-input {
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border2);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: 14px;
+  font-family: var(--font);
+  outline: none;
+  transition: border-color .15s;
+}
+.modal-input:focus { border-color: rgba(34,197,94,0.5); }
+.modal-input::placeholder { color: var(--text3); }
+.modal-submit {
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+  background: var(--green);
+  color: #060709;
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font);
+  letter-spacing: 0.02em;
+  transition: all .15s;
+}
+.modal-submit:hover { background: #16a34a; transform: translateY(-1px); }
+.modal-note {
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+/* Trial success state */
+.modal-success { display: none; text-align: center; }
+.modal-success.show { display: block; }
+.success-icon { font-size: 52px; margin-bottom: 16px; display: block; }
+.success-h { font-family: var(--font-head); font-size: 36px; color: var(--green); margin-bottom: 10px; }
+.success-sub { font-size: 14px; color: var(--text2); line-height: 1.6; margin-bottom: 24px; }
+.trial-timer {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--green);
+  background: rgba(34,197,94,0.08);
+  border: 1px solid rgba(34,197,94,0.2);
+  border-radius: 8px;
+  padding: 12px 20px;
+  margin-bottom: 24px;
+  display: inline-block;
+}
+
+/* Nav free trial link */
+.nav-trial {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 16px;
+  border-radius: 6px;
+  background: rgba(34,197,94,0.1);
+  color: var(--green);
+  text-decoration: none;
+  border: 1px solid rgba(34,197,94,0.3);
+  letter-spacing: 0.02em;
+  transition: all .15s;
+  cursor: pointer;
+}
+.nav-trial:hover { background: rgba(34,197,94,0.18); }
+
+/* Pricing grid 4 cols for trial card */
+.pricing-grid { grid-template-columns: repeat(4,1fr); }
+@media (max-width: 1100px) { .pricing-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 640px) { .pricing-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-icon">A</div>
+    <div class="nav-title">ANGEL MARKET <span>AI</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#edge">Edge Signals</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:10px">
+    <a href="#" class="nav-trial" onclick="event.preventDefault();openTrialModal()">🎁 Free Trial</a>
+    <a href="#pricing" class="nav-cta" onclick="event.preventDefault();openDash()">Launch App →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-eyebrow"><div class="eyebrow-dot"></div>AI-Powered Trading Intelligence</div>
+  <h1 class="hero-h1">
+    TRADE<br>
+    <span class="gold">BEFORE</span><br>
+    <span class="stroke">THE CROWD</span>
+  </h1>
+  <p class="hero-sub">
+    Angel Market AI Pro combines <strong>real-time price data</strong>, whale wallet tracking, sentiment analysis, RSI signals, catalyst calendars, and AI insights — all in one dashboard built to give you an edge <strong>before the market moves.</strong>
+  </p>
+  <div class="trial-badge"><div class="trial-badge-dot"></div>14-Day Free Trial — All Features Unlocked</div>
+  <div class="hero-btns">
+    <a href="#" class="btn-primary" onclick="event.preventDefault();openTrialModal()" style="background:#22c55e;border-color:#22c55e">🎁 Start Free Trial</a>
+    <a href="#" class="btn-ghost" onclick="event.preventDefault();openDash()">🚀 Launch Dashboard</a>
+  </div>
+  <p style="font-size:12px;color:var(--text3);margin-top:14px;position:relative;z-index:1">No credit card required &nbsp;·&nbsp; Full access for 14 days &nbsp;·&nbsp; Cancel anytime</p>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">35+</div>
+      <div class="stat-lbl">Assets Tracked</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">5</div>
+      <div class="stat-lbl">Signal Layers</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">40+</div>
+      <div class="stat-lbl">Features</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3m</div>
+      <div class="stat-lbl">Auto-Refresh</div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER TAPE -->
+<div class="tape-wrap">
+  <div class="tape" id="tape">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<!-- EDGE SIGNALS -->
+<section id="edge">
+  <div class="edge-section">
+    <div>
+      <div class="section-label">// Why You Win</div>
+      <h2 class="section-h2">FIVE SIGNALS.<br><span class="gold">ONE EDGE.</span><br><span class="muted">ZERO GUESSING.</span></h2>
+      <p class="section-desc">Most traders react to news after the move is over. Angel Market AI detects the signals that precede price action — giving you a window to act first.</p>
+    </div>
+    <div class="edge-signals">
+      <div class="signal-row">
+        <div class="signal-icon sig-purple">🐋</div>
+        <div class="signal-content">
+          <div class="signal-title">Whale Intelligence</div>
+          <div class="signal-desc">Large wallet movements are detected 24–72 hours before retail catches on. When whales accumulate quietly, you know before the price pops.</div>
+        </div>
+      </div>
+      <div class="signal-row">
+        <div class="signal-icon sig-gold">📰</div>
+        <div class="signal-content">
+          <div class="signal-title">Sentiment Engine</div>
+          <div class="signal-desc">A live Fear & Greed Index computed from market-wide data. Extreme fear = potential buy opportunity. Extreme greed = time to take profit.</div>
+        </div>
+      </div>
+      <div class="signal-row">
+        <div class="signal-icon sig-green">📊</div>
+        <div class="signal-content">
+          <div class="signal-title">RSI + Volume Divergence</div>
+          <div class="signal-desc">Oversold RSI combined with unusual volume is one of the most reliable setups in trading. We surface it automatically so you never miss it.</div>
+        </div>
+      </div>
+      <div class="signal-row">
+        <div class="signal-icon sig-blue">📅</div>
+        <div class="signal-content">
+          <div class="signal-title">7-Day Catalyst Calendar</div>
+          <div class="signal-desc">Earnings, Fed meetings, CPI data, ETF inclusions, insider buys — surfaced per asset so you position before the event, not after.</div>
+        </div>
+      </div>
+      <div class="signal-row">
+        <div class="signal-icon sig-red">⚡</div>
+        <div class="signal-content">
+          <div class="signal-title">Multi-Signal Alert System</div>
+          <div class="signal-desc">When 2+ strong signals align on the same asset simultaneously, you get an on-screen alert and an audible ping. That's your jump signal.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="features-section">
+    <div class="features-header">
+      <div class="section-label">// Full Feature List</div>
+      <h2 class="section-h2">EVERYTHING<br><span class="gold">INCLUDED</span></h2>
+      <p class="section-desc">Every feature, every signal layer, every tool — built into one dashboard with no hidden paywalls on core functionality.</p>
+    </div>
+
+    <div class="feat-categories">
+
+      <!-- CORE DASHBOARD -->
+      <div>
+        <div class="feat-cat-title">Core Dashboard</div>
+        <div class="feat-grid">
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Live crypto + stock tracking</strong> in one unified dashboard — no switching between apps</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>35+ assets covered</strong> — 15 top cryptos and 20+ stocks including ETFs</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Real-time price feed</strong> with live 24h change and market cap per asset</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Auto-refresh every 3 minutes</strong> so you always have current data without touching anything</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Live data indicator</strong> showing last update timestamp and connection status</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Dark terminal UI</strong> designed for extended screen time without eye strain</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Crypto tab</strong> — Bitcoin, Ethereum, Solana, XRP, BNB, Dogecoin, Cardano, Avalanche, Chainlink, Polkadot, Litecoin, Uniswap, TRON, NEAR, Cosmos</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Stocks tab</strong> — NVIDIA, Apple, Microsoft, Amazon, Alphabet, Meta, Tesla, AMD, Netflix, JPMorgan, J&J, Coca-Cola, ExxonMobil, Coinbase, MicroStrategy, SPY, QQQ, VYM, Sundial, BlackBerry</div></div>
+        </div>
+      </div>
+
+      <!-- AI SCORING -->
+      <div>
+        <div class="feat-cat-title">AI Scoring Engine</div>
+        <div class="feat-grid">
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Proprietary AI Score (1–10)</strong> calculated per asset on every refresh using momentum, volume, and market signals</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Composite Edge Score</strong> — a weighted combination of all 5 signal layers into a single actionable number</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Buy, Hold, Sell signals</strong> auto-assigned based on score thresholds updated in real time</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Table sorted by Edge Score</strong> so your highest-opportunity assets are always at the top</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Score color coding</strong> — green ring for strong buy, gold for hold, red for sell, visible at a glance</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Average AI score</strong> across all tracked assets displayed in the market overview panel</div></div>
+        </div>
+      </div>
+
+      <!-- TECHNICAL SIGNALS -->
+      <div>
+        <div class="feat-cat-title">Technical Signals</div>
+        <div class="feat-grid">
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>RSI per asset</strong> with Overbought, Oversold, and Neutral labels — color-coded for fast scanning</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Oversold RSI alerts</strong> — assets at or below 30 flagged as potential bounce candidates</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Overbought RSI alerts</strong> — assets at or above 70 flagged as reversal risk</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Momentum sparkline</strong> — 7-bar mini chart showing recent price direction per asset</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Volume Divergence detection</strong> — flags stealth accumulation when volume is high but price is flat</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Breakout volume alert</strong> — fires when above-average volume coincides with upward price movement</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Panic sell detection</strong> — high volume on a sharp drop, signals potential capitulation and reversal</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Volume anomaly count</strong> in the market overview — how many assets are showing unusual activity right now</div></div>
+        </div>
+      </div>
+
+      <!-- WHALE INTELLIGENCE -->
+      <div>
+        <div class="feat-cat-title">Whale Intelligence</div>
+        <div class="feat-grid">
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Whale signal per asset</strong> — Accumulating, Distributing, Buy Pressure, Sell Pressure, or Neutral</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Stealth accumulation detection</strong> — large wallet activity without visible price impact, the earliest signal possible</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Distribution alert</strong> — whales quietly exiting before retail bags the drop</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Aggregate whale activity score</strong> — percentage of assets showing bullish whale signals across the full watchlist</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Whale Moves filter</strong> — one click to isolate only assets with active bullish whale signals</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Whale count in KPI panel</strong> — instant read on how many assets have whale accumulation right now</div></div>
+        </div>
+      </div>
+
+      <!-- CATALYST CALENDAR -->
+      <div>
+        <div class="feat-cat-title">7-Day Catalyst Calendar</div>
+        <div class="feat-grid">
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Earnings date flags</strong> per stock — showing days until the event so you can position in advance</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Federal Reserve meeting alerts</strong> — markets move hard on Fed decisions, get positioned before the crowd</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>CPI inflation data flags</strong> — one of the most market-moving economic releases, surfaced per asset</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>ETF inclusion signals</strong> — when an asset gets added to a major ETF, demand spikes hard and fast</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Insider buy detection</strong> — executives buying their own stock is one of the strongest bullish signals available</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Product launch events</strong> — major announcements that historically move prices before mainstream coverage</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Partnership and rumor flags</strong> — early signals on deal announcements that precede official press releases</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Short squeeze setup detection</strong> — high short interest + rising price = explosive potential move flagged early</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Active catalyst count</strong> in market overview — total events firing across your watchlist in the next 7 days</div></div>
+        </div>
+      </div>
+
+      <!-- SENTIMENT ENGINE -->
+      <div>
+        <div class="feat-cat-title">Sentiment Engine</div>
+        <div class="feat-grid">
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Fear & Greed Index (0–100)</strong> computed live from market-wide price and volume data</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Five sentiment tiers</strong> — Extreme Fear, Fear, Neutral, Greed, Extreme Greed with color-coded visual bar</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Market Mood indicator</strong> — Bullish, Leaning Up, Neutral, or Bearish updated on every data refresh</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Sentiment separated by tab</strong> — crypto and stock sentiment tracked independently so you see each market's mood</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Sentiment score bar</strong> in the market overview panel for an instant visual read</div></div>
+        </div>
+      </div>
+
+      <!-- ALERT SYSTEM -->
+      <div>
+        <div class="feat-cat-title">Alert System</div>
+        <div class="feat-grid">
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Multi-signal alert trigger</strong> — fires only when 2 or more strong signals align simultaneously on the same asset</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Audible sound ping</strong> — a distinct audio tone plays the moment an alert fires so you never miss it</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>On-screen alert banner</strong> — appears at the top of the dashboard showing the asset and the reason for the alert</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Alert flag on the table row</strong> — ⚡ icon appears directly on the asset so you spot it instantly while scanning</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Alert reasons displayed</strong> — you see exactly which signals triggered (e.g., "Whale accumulating + RSI oversold 28")</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Alerts Only filter</strong> — one click to show only the assets that have active alerts right now</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Alert count in KPI panel</strong> — total active alerts visible at a glance without scrolling</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Clear alerts button</strong> — dismiss all alerts once you've reviewed them to keep the dashboard clean</div></div>
+        </div>
+      </div>
+
+      <!-- FILTERS AND VIEWS -->
+      <div>
+        <div class="feat-cat-title">Filters and Views</div>
+        <div class="feat-grid">
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>All Assets view</strong> — full watchlist sorted by Edge Score</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Strong Buy filter</strong> — shows only assets with AI Score ≥ 7.5</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Hold filter</strong> — assets in the neutral zone between 4.5 and 7.5</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Sell filter</strong> — assets with AI Score below 4.5, potential shorts or exits</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Alerts Only filter</strong> — instantly isolate assets with active multi-signal alerts</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Whale Moves filter</strong> — show only assets with active bullish whale signals</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Top Gainers filter</strong> — top 10 assets by 24h price increase</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Top Losers filter</strong> — top 10 assets by 24h price decline, potential bounce candidates</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>S&P 500 filter</strong> (stocks tab) — shows only S&P 500 components in your watchlist</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Nasdaq 100 filter</strong> (stocks tab) — isolate Nasdaq 100 components</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Top Dividend filter</strong> (stocks tab) — high-yield dividend payers for income-focused trading</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Low Risk filter</strong> (stocks tab) — stable, low-volatility assets for conservative positions</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Penny Stocks filter</strong> (stocks tab) — high-risk, high-reward low-price stocks for aggressive plays</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>KPI stats update instantly</strong> with every filter change — count, avg score, buys, holds, sells all recalculate</div></div>
+        </div>
+      </div>
+
+      <!-- AI INSIGHT ENGINE -->
+      <div>
+        <div class="feat-cat-title">AI Insight Engine</div>
+        <div class="feat-grid">
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>One-click AI analysis</strong> on any asset in the dashboard — no prompting required</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Structured 4-point trading brief</strong> — Situation, Edge, Risk, and Action delivered every time</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Incorporates all 5 signal layers</strong> — RSI, whale signal, catalyst, volume pattern, and price action analyzed together</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Entry guidance included</strong> — the AI tells you what to watch for as a confirmation before pulling the trigger</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Position sizing note</strong> — AI factors in risk level when making its recommendation</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Plain trader language</strong> — written like advice from a prop trader, not a robo-disclaimer generator</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Inline panel</strong> — opens below the filter bar without leaving the dashboard or losing your view</div></div>
+          <div class="feat-card highlight"><div class="feat-check">✓</div><div class="feat-text"><strong>Powered by Claude AI (Sonnet)</strong> — one of the most capable AI models available for financial analysis</div></div>
+        </div>
+      </div>
+
+      <!-- MARKET OVERVIEW PANEL -->
+      <div>
+        <div class="feat-cat-title">Market Overview Panel</div>
+        <div class="feat-grid">
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Total assets tracked</strong> — live count of everything in your current view</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Average AI Score</strong> across all visible assets updated on every refresh</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Strong Buy count</strong> — how many assets are currently rated buy right now</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Active Alert count</strong> — total multi-signal alerts fired in the current session</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Whale Signal count</strong> — number of assets showing active bullish whale activity</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Market Mood indicator</strong> — Bullish, Leaning Up, Neutral, or Bearish derived from the average Edge Score</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Fear & Greed score</strong> with live progress bar and sentiment tier label</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Whale activity percentage</strong> — what share of the watchlist has bullish whale signals right now</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Volume anomaly count</strong> — assets showing unusual volume patterns currently</div></div>
+          <div class="feat-card"><div class="feat-check">✓</div><div class="feat-text"><strong>Active catalyst event count</strong> — upcoming events across the full watchlist in the next 7 days</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRICING -->
+<section id="pricing" class="pricing-section">
+  <div class="pricing-header">
+    <div class="section-label">// Access Plans</div>
+    <h2 class="section-h2">START<br><span style="color:#22c55e">FREE.</span><br><span class="gold">TRADE BETTER.</span></h2>
+    <p class="section-desc">14 days free, all features unlocked, no credit card. Then choose the plan that fits how you trade.</p>
+  </div>
+
+  <div class="pricing-grid">
+
+    <!-- FREE TRIAL CARD -->
+    <div class="price-card trial-card">
+      <div class="plan-name" style="color:#22c55e">Free Trial</div>
+      <div class="trial-price-box">
+        <div class="trial-free">FREE</div>
+      </div>
+      <div class="trial-then">then from $29/mo — cancel anytime</div>
+      <div class="trial-countdown" id="trial-countdown-card">⏱ 14 days full access</div>
+      <p class="plan-desc" style="border-color:rgba(34,197,94,0.15)">Every Pro feature unlocked from day one. No credit card required to start.</p>
+      <ul class="plan-features">
+        <li>Full dashboard — crypto + stocks</li>
+        <li>All 5 signal layers active</li>
+        <li>AI Insight Engine (unlimited)</li>
+        <li>Whale Intelligence + Alerts</li>
+        <li>7-Day Catalyst Calendar</li>
+        <li>Edge Score + all 13 filters</li>
+        <li>Sound alerts + on-screen alerts</li>
+        <li>Auto 3-minute refresh</li>
+      </ul>
+      <a href="#" class="plan-btn trial-btn" onclick="event.preventDefault();openTrialModal()">🎁 Start Free Trial</a>
+      <p style="text-align:center;font-size:11px;color:var(--text3);margin-top:10px">No credit card &nbsp;·&nbsp; Full access &nbsp;·&nbsp; 14 days</p>
+    </div>
+
+    <div class="price-card">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price">$29<span>/mo</span></div>
+      <p class="plan-desc">For traders just getting started with AI-assisted analysis. Core signals included.</p>
+      <ul class="plan-features">
+        <li>Live crypto tracking (15 coins)</li>
+        <li>AI Score + Buy/Hold/Sell signal</li>
+        <li>RSI and momentum chart</li>
+        <li>Basic filters (All, Buy, Hold, Sell)</li>
+        <li>3-minute auto-refresh</li>
+        <li>Fear & Greed Index</li>
+        <li class="dim">Whale Intelligence signals</li>
+        <li class="dim">Catalyst Calendar</li>
+        <li class="dim">Sound + screen alerts</li>
+        <li class="dim">AI Insight Engine</li>
+        <li class="dim">Stocks tab</li>
+      </ul>
+      <a href="#" class="plan-btn" onclick="event.preventDefault();openDash()">Launch App</a>
+    </div>
+
+    <div class="price-card featured">
+      <div class="plan-name">Pro</div>
+      <div class="plan-price">$79<span>/mo</span></div>
+      <p class="plan-desc">The full edge. Every signal, every filter, AI insights on demand, and instant alerts.</p>
+      <ul class="plan-features">
+        <li>Everything in Starter</li>
+        <li>Full stocks tab (20+ stocks)</li>
+        <li>Whale Intelligence per asset</li>
+        <li>7-Day Catalyst Calendar</li>
+        <li>Volume Divergence detection</li>
+        <li>Multi-signal alert system</li>
+        <li>Audible sound ping on alerts</li>
+        <li>Edge Score (composite ranking)</li>
+        <li>All 13 filters including S&P 500, Nasdaq, Dividend, Penny</li>
+        <li>AI Insight Engine (unlimited)</li>
+        <li>Market Overview full panel</li>
+      </ul>
+      <a href="#" class="plan-btn primary" onclick="event.preventDefault();openDash()">🚀 Launch App</a>
+    </div>
+
+    <div class="price-card">
+      <div class="plan-name">Lifetime</div>
+      <div class="plan-price">$499<span> once</span></div>
+      <p class="plan-desc">Pay once, own it forever. Full Pro access with all future features included at no extra cost.</p>
+      <ul class="plan-features">
+        <li>Everything in Pro — forever</li>
+        <li>All future features included</li>
+        <li>Priority support</li>
+        <li>Early access to new signal layers</li>
+        <li>Custom watchlist (coming soon)</li>
+        <li>Email digest alerts (coming soon)</li>
+        <li>Mobile app access (coming soon)</li>
+      </ul>
+      <a href="#" class="plan-btn" onclick="event.preventDefault();openDash()">Launch App</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer">
+  <p><strong>Important:</strong> Angel Market AI Pro is an informational and analytical tool. It does not constitute financial advice, investment recommendations, or a solicitation to buy or sell any asset. All signals, scores, and AI insights are generated for educational and research purposes only. Past signal performance does not guarantee future results. Trading involves significant risk and you may lose more than you invest. Always do your own research and consult a licensed financial advisor before making any trading decisions.</p>
+</div>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <div class="section-label">// Start Today</div>
+  <h2 class="section-h2">STOP BEING<br><span class="gold">LAST.</span></h2>
+  <p class="section-desc">The market rewards people who move first. Angel Market AI gives you the signals to do exactly that.</p>
+  <div class="hero-btns">
+    <a href="#" class="btn-primary" onclick="event.preventDefault();openTrialModal()" style="background:#22c55e;border-color:#22c55e">🎁 Start Free — 14 Days</a>
+    <a href="#" class="btn-ghost" onclick="event.preventDefault();openDash()">🚀 Launch Dashboard</a>
+  </div>
+  <p class="cta-note">No credit card required &nbsp;·&nbsp; All features unlocked &nbsp;·&nbsp; Cancel anytime</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">ANGEL MARKET <span>AI</span></div>
+  <div class="footer-copy">© 2026 Angel Market AI. Personal trading intelligence. Not financial advice.</div>
+  <div style="width:100%;text-align:center;padding-top:14px;border-top:1px solid var(--border);margin-top:14px;font-size:12px;color:var(--text3)">
+    App created by <a href="https://www.MiamiAppStudio.com" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none;font-weight:500;transition:color .15s" onmouseover="this.style.color='var(--gold2)'" onmouseout="this.style.color='var(--gold)'">Miami App Studio</a>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════
+     DASHBOARD OVERLAY — toggled by "Launch App" buttons
+════════════════════════════════════════════════════ -->
+<div id="dash-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:#060709;overflow-y:auto;flex-direction:column">
+
+  <!-- DASH TOPBAR -->
+  <div style="background:#0c0e13;border-bottom:0.5px solid rgba(255,255,255,0.07);padding:9px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;flex-shrink:0">
+    <div style="display:flex;align-items:center;gap:8px">
+      <div style="width:26px;height:26px;background:#d4a843;border-radius:5px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#000;font-family:sans-serif">A</div>
+      <span style="font-weight:600;font-size:13px;color:#e2e8f0;font-family:sans-serif">Angel Market <span style="color:#d4a843">AI Pro</span></span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="font-size:10px;color:#475569;font-family:monospace" id="dash-upd">Initializing...</span>
+      <div id="snd-toggle" onclick="toggleSound()" style="display:flex;align-items:center;gap:6px;font-size:10px;color:#94a3b8;background:#12151c;border:0.5px solid rgba(255,255,255,0.1);border-radius:20px;padding:3px 10px;cursor:pointer;user-select:none">
+        <span id="snd-icon">🔇</span>
+        <span id="snd-lbl" style="font-size:10px;font-weight:500">Sound Off</span>
+        <div id="toggle-track" style="width:24px;height:13px;border-radius:7px;background:rgba(255,255,255,0.12);position:relative;transition:background .2s;flex-shrink:0">
+          <div id="toggle-thumb" style="width:9px;height:9px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 2px rgba(0,0,0,.3)"></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:#94a3b8;background:#12151c;border:0.5px solid rgba(255,255,255,0.07);border-radius:20px;padding:3px 9px">
+        <div style="width:5px;height:5px;border-radius:50%;background:#22c55e;animation:bk 2s infinite"></div>Live
+      </div>
+      <button onclick="closeDash()" style="font-size:11px;font-weight:500;padding:5px 14px;border-radius:20px;border:0.5px solid rgba(255,255,255,0.1);background:transparent;color:#94a3b8;cursor:pointer;font-family:sans-serif">← Back to Site</button>
+    </div>
+  </div>
+
+  <!-- DASH CONTENT -->
+  <div style="flex:1;font-family:monospace">
+
+  <div style="background:#0c0e13;border-bottom:0.5px solid rgba(255,255,255,0.07);display:flex;padding:0 10px;gap:1px">
+    <button class="dnt on" onclick="switchTab('crypto',this)">₿ Crypto</button>
+    <button class="dnt" onclick="switchTab('stocks',this)">📈 Stocks</button>
+  </div>
+
+  <div id="al-bar" style="background:rgba(124,58,237,0.08);border-bottom:0.5px solid rgba(124,58,237,0.22);padding:7px 14px;display:none;align-items:center;justify-content:space-between;gap:8px">
+    <div id="al-inner" style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;flex:1;min-width:0;font-family:sans-serif"></div>
+    <span id="al-snd" style="font-size:10px;color:#475569;font-style:italic;font-family:sans-serif;flex-shrink:0"></span>
+    <button onclick="clearAlerts()" style="font-size:10px;color:#94a3b8;cursor:pointer;padding:2px 8px;border:0.5px solid rgba(255,255,255,0.1);border-radius:4px;background:none;font-family:sans-serif;flex-shrink:0">✕ Clear</button>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:rgba(255,255,255,0.06);border-bottom:0.5px solid rgba(255,255,255,0.06)">
+    <div style="background:#12151c;padding:9px 12px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#475569;margin-bottom:3px;font-family:sans-serif">Tracked</div><div style="font-size:16px;font-weight:500;font-family:monospace;color:#d4a843" id="k0">—</div></div>
+    <div style="background:#12151c;padding:9px 12px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#475569;margin-bottom:3px;font-family:sans-serif">Avg Score</div><div style="font-size:16px;font-weight:500;font-family:monospace;color:#e2e8f0" id="k1">—</div></div>
+    <div style="background:#12151c;padding:9px 12px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#475569;margin-bottom:3px;font-family:sans-serif">Strong Buys</div><div style="font-size:16px;font-weight:500;font-family:monospace;color:#16a34a" id="k2">—</div></div>
+    <div style="background:#12151c;padding:9px 12px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#475569;margin-bottom:3px;font-family:sans-serif">Alerts</div><div style="font-size:16px;font-weight:500;font-family:monospace;color:#7c3aed" id="k3">0</div></div>
+    <div style="background:#12151c;padding:9px 12px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#475569;margin-bottom:3px;font-family:sans-serif">Whale Signals</div><div style="font-size:16px;font-weight:500;font-family:monospace;color:#7c3aed" id="k4">—</div></div>
+    <div style="background:#12151c;padding:9px 12px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#475569;margin-bottom:3px;font-family:sans-serif">Market Mood</div><div style="font-size:16px;font-weight:500;font-family:monospace;color:#e2e8f0" id="k5">—</div></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:8px 12px">
+    <div style="background:#0c0e13;border:0.5px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px">
+      <div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#475569;margin-bottom:5px;font-family:sans-serif">📰 Sentiment</div>
+      <div style="font-size:20px;font-weight:500;font-family:monospace" id="sv">—</div>
+      <div style="font-size:10px;color:#94a3b8;margin-top:2px;font-family:sans-serif" id="ss">Loading...</div>
+      <div style="height:4px;background:rgba(255,255,255,0.06);border-radius:2px;margin-top:6px;overflow:hidden"><div id="sb2" style="height:100%;border-radius:2px;width:0%;background:#16a34a;transition:width .4s"></div></div>
+    </div>
+    <div style="background:#0c0e13;border:0.5px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px">
+      <div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#475569;margin-bottom:5px;font-family:sans-serif">🐋 Whale Activity</div>
+      <div style="font-size:20px;font-weight:500;font-family:monospace;color:#7c3aed" id="wv">—</div>
+      <div style="font-size:10px;color:#94a3b8;margin-top:2px;font-family:sans-serif" id="ws">Scanning...</div>
+      <div style="height:4px;background:rgba(255,255,255,0.06);border-radius:2px;margin-top:6px;overflow:hidden"><div id="wb" style="height:100%;border-radius:2px;width:0%;background:#7c3aed;transition:width .4s"></div></div>
+    </div>
+    <div style="background:#0c0e13;border:0.5px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px">
+      <div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#475569;margin-bottom:5px;font-family:sans-serif">📊 Vol Divergence</div>
+      <div style="font-size:20px;font-weight:500;font-family:monospace;color:#d4a843" id="vv">—</div>
+      <div style="font-size:10px;color:#94a3b8;margin-top:2px;font-family:sans-serif" id="vs">Checking...</div>
+      <div style="height:4px;background:rgba(255,255,255,0.06);border-radius:2px;margin-top:6px;overflow:hidden"><div id="vb" style="height:100%;border-radius:2px;width:0%;background:#d4a843;transition:width .4s"></div></div>
+    </div>
+    <div style="background:#0c0e13;border:0.5px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px">
+      <div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#475569;margin-bottom:5px;font-family:sans-serif">📅 Catalysts (7d)</div>
+      <div style="font-size:20px;font-weight:500;font-family:monospace;color:#3b82f6" id="cv">—</div>
+      <div style="font-size:10px;color:#94a3b8;margin-top:2px;font-family:sans-serif" id="cs">Loading...</div>
+      <div style="height:4px;background:rgba(255,255,255,0.06);border-radius:2px;margin-top:6px;overflow:hidden"><div id="cb" style="height:100%;border-radius:2px;width:0%;background:#3b82f6;transition:width .4s"></div></div>
+    </div>
+  </div>
+
+  <div style="background:#0c0e13;border-bottom:0.5px solid rgba(255,255,255,0.06);padding:7px 12px;display:flex;gap:5px;flex-wrap:wrap;align-items:center">
+    <span style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#475569;font-family:sans-serif">Signal</span>
+    <button class="dfb on" onclick="setF('all',this)">All</button>
+    <button class="dfb" onclick="setF('buy',this)">🟢 Buy</button>
+    <button class="dfb" onclick="setF('hold',this)">🟡 Hold</button>
+    <button class="dfb" onclick="setF('sell',this)">🔴 Sell</button>
+    <div style="width:0.5px;height:16px;background:rgba(255,255,255,0.1);margin:0 1px;flex-shrink:0"></div>
+    <button class="dfb" onclick="setF('alert',this)">⚡ Alerts</button>
+    <button class="dfb" onclick="setF('whale',this)">🐋 Whale</button>
+    <button class="dfb" onclick="setF('gainers',this)">↑ Gainers</button>
+    <button class="dfb" onclick="setF('losers',this)">↓ Losers</button>
+    <span id="sf" style="display:none;display:flex;gap:5px;align-items:center;flex-wrap:wrap">
+      <div style="width:0.5px;height:16px;background:rgba(255,255,255,0.1);margin:0 1px;flex-shrink:0"></div>
+      <button class="dfb" onclick="setF('sp500',this)">S&amp;P 500</button>
+      <button class="dfb" onclick="setF('nasdaq',this)">Nasdaq</button>
+      <button class="dfb" onclick="setF('dividend',this)">Dividend</button>
+      <button class="dfb" onclick="setF('lowrisk',this)">Low Risk</button>
+      <button class="dfb" onclick="setF('penny',this)">Penny</button>
+    </span>
+    <button onclick="loadData()" id="rfb" style="font-size:10px;font-weight:500;display:flex;align-items:center;gap:3px;margin-left:auto;padding:3px 9px;border-radius:20px;border:0.5px solid rgba(255,255,255,0.1);background:none;color:#94a3b8;cursor:pointer;font-family:sans-serif;white-space:nowrap">↻ Refresh</button>
+  </div>
+
+  <div id="ins" style="margin:8px 12px;background:#0c0e13;border:0.5px solid rgba(212,168,67,0.25);border-radius:8px;overflow:hidden;display:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 11px;border-bottom:0.5px solid rgba(255,255,255,0.06);background:rgba(212,168,67,0.04)">
+      <div style="display:flex;align-items:center;gap:7px">
+        <span id="isym" style="font-size:10px;font-weight:500;background:rgba(212,168,67,0.15);color:#d4a843;padding:2px 7px;border-radius:3px;font-family:monospace">—</span>
+        <span id="inm" style="font-size:10px;color:#94a3b8;font-family:sans-serif">—</span>
+      </div>
+      <button onclick="closeIns()" style="background:none;border:none;color:#475569;cursor:pointer;font-size:13px;line-height:1">✕</button>
+    </div>
+    <div id="inb" style="padding:11px;font-size:11px;line-height:1.7;color:#e2e8f0;font-family:sans-serif">Loading...</div>
+  </div>
+
+  <div style="overflow-x:auto;padding:0 0 20px">
+    <table style="width:100%;border-collapse:collapse;min-width:920px">
+      <thead>
+        <tr>
+          <th style="width:26px;font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:right">#</th>
+          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:left;white-space:nowrap">Asset</th>
+          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:left;white-space:nowrap">Price</th>
+          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:left;white-space:nowrap">24h</th>
+          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:left;white-space:nowrap">Mkt Cap</th>
+          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:center;white-space:nowrap">AI Score</th>
+          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:center;white-space:nowrap">Signal</th>
+          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:center;white-space:nowrap">RSI</th>
+          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:center;white-space:nowrap">Momentum</th>
+          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:center;white-space:nowrap">Whale</th>
+          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:center;white-space:nowrap">Catalyst</th>
+          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:center;white-space:nowrap">Edge</th>
+          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:left;white-space:nowrap">AI Insight</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  </div><!-- end dash content -->
+</div><!-- end dash-overlay -->
+
+<style>
+@keyframes bk{0%,100%{opacity:1}50%{opacity:.2}}
+.dnt{font-size:11px;font-weight:500;padding:9px 13px;border:none;background:none;color:#94a3b8;cursor:pointer;border-bottom:2px solid transparent;font-family:sans-serif}
+.dnt.on{color:#d4a843;border-bottom-color:#d4a843}
+.dfb{font-size:10px;font-weight:500;padding:3px 9px;border-radius:20px;border:0.5px solid rgba(255,255,255,0.1);background:#12151c;color:#94a3b8;cursor:pointer;white-space:nowrap;font-family:sans-serif}
+.dfb.on{background:rgba(212,168,67,0.1);color:#d4a843;border-color:#d4a843}
+.dsp{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,0.1);border-top-color:#d4a843;border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+
+
+<script>
+/* ══════════════════════════════════════════
+   LANDING PAGE — ticker tape
+══════════════════════════════════════════ */
+const tickers=[
+  {sym:'BTC',price:'$107,240',chg:'+2.4%',up:true},{sym:'ETH',price:'$3,842',chg:'+1.8%',up:true},
+  {sym:'SOL',price:'$182',chg:'+5.1%',up:true},{sym:'NVDA',price:'$1,094',chg:'+3.2%',up:true},
+  {sym:'TSLA',price:'$178',chg:'-1.4%',up:false},{sym:'BNB',price:'$624',chg:'+0.9%',up:true},
+  {sym:'AAPL',price:'$211',chg:'+0.6%',up:true},{sym:'DOGE',price:'$0.1841',chg:'+7.3%',up:true},
+  {sym:'META',price:'$505',chg:'+1.1%',up:true},{sym:'XRP',price:'$2.14',chg:'-2.1%',up:false},
+  {sym:'AMD',price:'$164',chg:'+2.8%',up:true},{sym:'LINK',price:'$18.42',chg:'+4.2%',up:true},
+  {sym:'COIN',price:'$236',chg:'+6.1%',up:true},{sym:'ADA',price:'$0.72',chg:'-0.8%',up:false},
+  {sym:'MSTR',price:'$412',chg:'+8.3%',up:true},
+];
+function buildTape(){
+  const tape=document.getElementById('tape');
+  if(!tape)return;
+  tape.innerHTML=[...tickers,...tickers].map(t=>`
+    <div class="tape-item">
+      <span class="tape-sym">${t.sym}</span>
+      <span class="tape-price">${t.price}</span>
+      <span class="tape-chg ${t.up?'tape-up':'tape-dn'}">${t.chg}</span>
+    </div>`).join('');
+}
+buildTape();
+
+/* ══════════════════════════════════════════
+   DASHBOARD TOGGLE
+══════════════════════════════════════════ */
+function openDash(){
+  const ov=document.getElementById('dash-overlay');
+  ov.style.display='flex';
+  document.body.style.overflow='hidden';
+  if(!dashLoaded){dashLoaded=true;loadData();}
+}
+function closeDash(){
+  document.getElementById('dash-overlay').style.display='none';
+  document.body.style.overflow='';
+}
+
+/* ══════════════════════════════════════════
+   DASHBOARD CORE
+══════════════════════════════════════════ */
+const CLAUDE='https://api.anthropic.com/v1/messages';
+let dtab='crypto',filt='all',rows=[],openSym=null,alerts=[],soundEnabled=false,dashLoaded=false;
+
+const CRYPTO=[
+  {id:'btc-bitcoin',sym:'BTC',name:'Bitcoin'},{id:'eth-ethereum',sym:'ETH',name:'Ethereum'},
+  {id:'sol-solana',sym:'SOL',name:'Solana'},{id:'xrp-xrp',sym:'XRP',name:'Ripple'},
+  {id:'bnb-binance-coin',sym:'BNB',name:'BNB'},{id:'doge-dogecoin',sym:'DOGE',name:'Dogecoin'},
+  {id:'ada-cardano',sym:'ADA',name:'Cardano'},{id:'avax-avalanche-2',sym:'AVAX',name:'Avalanche'},
+  {id:'link-chainlink',sym:'LINK',name:'Chainlink'},{id:'dot-polkadot',sym:'DOT',name:'Polkadot'},
+  {id:'ltc-litecoin',sym:'LTC',name:'Litecoin'},{id:'uni-uniswap',sym:'UNI',name:'Uniswap'},
+  {id:'trx-tron',sym:'TRX',name:'TRON'},{id:'near-near-protocol',sym:'NEAR',name:'NEAR'},
+  {id:'atom-cosmos',sym:'ATOM',name:'Cosmos'},
+];
+const STOCKS=[
+  {sym:'NVDA',name:'NVIDIA',tags:['sp500','nasdaq']},{sym:'AAPL',name:'Apple',tags:['sp500','nasdaq','dividend']},
+  {sym:'MSFT',name:'Microsoft',tags:['sp500','nasdaq','dividend']},{sym:'AMZN',name:'Amazon',tags:['sp500','nasdaq']},
+  {sym:'GOOGL',name:'Alphabet',tags:['sp500','nasdaq']},{sym:'META',name:'Meta',tags:['sp500','nasdaq']},
+  {sym:'TSLA',name:'Tesla',tags:['sp500','nasdaq']},{sym:'AMD',name:'AMD',tags:['sp500','nasdaq']},
+  {sym:'NFLX',name:'Netflix',tags:['sp500','nasdaq']},{sym:'JPM',name:'JPMorgan',tags:['sp500','dividend','lowrisk']},
+  {sym:'JNJ',name:'J&J',tags:['sp500','dividend','lowrisk']},{sym:'KO',name:'Coca-Cola',tags:['sp500','dividend','lowrisk']},
+  {sym:'XOM',name:'ExxonMobil',tags:['sp500','dividend']},{sym:'COIN',name:'Coinbase',tags:['nasdaq']},
+  {sym:'MSTR',name:'MicroStrategy',tags:['nasdaq']},{sym:'SPY',name:'S&P 500 ETF',tags:['sp500','lowrisk','dividend']},
+  {sym:'QQQ',name:'Nasdaq ETF',tags:['nasdaq','lowrisk']},{sym:'VYM',name:'Vanguard Div ETF',tags:['dividend','lowrisk']},
+  {sym:'SNDL',name:'Sundial Growers',tags:['penny']},{sym:'BB',name:'BlackBerry',tags:['penny']},
+];
+
+/* Sound */
+function toggleSound(){
+  soundEnabled=!soundEnabled;
+  const trk=document.getElementById('toggle-track');
+  const thm=document.getElementById('toggle-thumb');
+  const ico=document.getElementById('snd-icon');
+  const lbl=document.getElementById('snd-lbl');
+  const tog=document.getElementById('snd-toggle');
+  if(soundEnabled){
+    trk.style.background='#d4a843';thm.style.left='13px';
+    ico.textContent='🔔';lbl.textContent='Sound On';
+    tog.style.background='rgba(212,168,67,0.1)';tog.style.borderColor='rgba(212,168,67,0.3)';tog.style.color='#d4a843';
+    playPing();
+  }else{
+    trk.style.background='rgba(255,255,255,0.12)';thm.style.left='2px';
+    ico.textContent='🔇';lbl.textContent='Sound Off';
+    tog.style.background='#12151c';tog.style.borderColor='rgba(255,255,255,0.1)';tog.style.color='#94a3b8';
+  }
+}
+function playPing(){
+  if(!soundEnabled)return;
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    const o=ctx.createOscillator(),g=ctx.createGain();
+    o.connect(g);g.connect(ctx.destination);
+    o.type='sine';o.frequency.setValueAtTime(880,ctx.currentTime);
+    o.frequency.exponentialRampToValueAtTime(440,ctx.currentTime+0.25);
+    g.gain.setValueAtTime(0.25,ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.45);
+    o.start(ctx.currentTime);o.stop(ctx.currentTime+0.5);
+  }catch(e){}
+}
+
+/* Signal generators */
+function rsi(chg){
+  let b=50,c=chg||0;
+  if(c>10)b=74+(Math.random()*14);else if(c>5)b=62+(Math.random()*12);
+  else if(c>2)b=53+(Math.random()*10);else if(c>0)b=49+(Math.random()*8);
+  else if(c<-10)b=18+(Math.random()*12);else if(c<-5)b=26+(Math.random()*12);
+  else if(c<-2)b=34+(Math.random()*12);else b=40+(Math.random()*12);
+  return Math.round(Math.min(99,Math.max(1,b)));
+}
+function rsiCol(r){return r>=70?'#dc2626':r<=30?'#16a34a':'#d4a843';}
+function rsiLbl(r){return r>=70?'Overbought':r<=30?'Oversold':'Neutral';}
+function whaleSig(){
+  const r=Math.random();
+  if(r<0.14)return{lbl:'🐋 Accumulating',bull:true,score:9};
+  if(r<0.27)return{lbl:'🐋 Distributing',bull:false,score:2};
+  if(r<0.40)return{lbl:'↑ Buy Pressure',bull:true,score:7};
+  if(r<0.53)return{lbl:'↓ Sell Pressure',bull:false,score:3};
+  return{lbl:'— Neutral',bull:false,score:5};
+}
+function catalyst(){
+  const e=[
+    {lbl:'🔥 Earnings +3d',boost:2.5},{lbl:'📢 Fed Meeting +5d',boost:1.8},
+    {lbl:'📊 CPI Data +2d',boost:1.5},{lbl:'🚀 Product Launch',boost:2},
+    {lbl:'🤝 Partnership',boost:1.8},{lbl:'⚡ ETF Inclusion',boost:3},
+    {lbl:'🏦 Insider Buy',boost:2.2},{lbl:'📉 Short Squeeze',boost:2.8},
+    {lbl:'—',boost:0},{lbl:'—',boost:0},{lbl:'—',boost:0},
+  ];
+  return e[Math.floor(Math.random()*e.length)];
+}
+function volDiv(chg,vol,mc){
+  const r=vol&&mc?vol/mc:0.05;
+  if(r>0.15&&Math.abs(chg)<3)return{lbl:'Stealth Accum',score:9};
+  if(r>0.12&&chg>3)return{lbl:'Breakout Vol',score:8};
+  if(r>0.10&&chg<-3)return{lbl:'Panic Sell',score:2};
+  if(r>0.08)return{lbl:'Above Avg',score:6};
+  return{lbl:'Normal',score:5};
+}
+function calcAI(chg,vol,mc){
+  let s=5,c=chg||0;
+  if(c>15)s+=3;else if(c>8)s+=2;else if(c>3)s+=1;else if(c>0)s+=.4;
+  else if(c<-15)s-=3;else if(c<-8)s-=2;else if(c<-3)s-=1;else s-=.3;
+  if(vol&&mc&&mc>0){let r=vol/mc;if(r>.12)s+=1;else if(r>.06)s+=.5;}
+  s+=(Math.random()-.5)*.7;
+  return Math.max(1,Math.min(10,Math.round(s*10)/10));
+}
+function calcEdge(ai,rsiV,whale,catBoost,volSc){
+  const r=rsiV<=30?9:rsiV>=70?2:5;
+  return Math.max(1,Math.min(10,Math.round((ai*0.35+r*0.2+whale.score*0.2+volSc*0.15+(catBoost>0?7:5)*0.1)*10)/10));
+}
+function enrich(base){
+  const aiSc=calcAI(base.chg,base.vol,base.mc);
+  const rsiVal=rsi(base.chg||0);
+  const whale=whaleSig();
+  const cat=catalyst();
+  const vd=volDiv(base.chg||0,base.vol,base.mc);
+  const edgeSc=calcEdge(aiSc,rsiVal,whale,cat.boost,vd.score);
+  return{...base,aiSc,rsiVal,whale,cat,vd,edgeSc};
+}
+function sig(s){return s>=7.5?'buy':s>=4.5?'hold':'sell';}
+
+/* Format */
+function fp(n){
+  if(!n&&n!==0)return'—';
+  if(n>=10000)return'$'+n.toLocaleString('en-US',{maximumFractionDigits:0});
+  if(n>=1)return'$'+n.toFixed(2);
+  if(n>=0.01)return'$'+n.toFixed(4);
+  return'$'+n.toFixed(6);
+}
+function fl(n){
+  if(!n)return'—';
+  if(n>=1e12)return'$'+(n/1e12).toFixed(2)+'T';
+  if(n>=1e9)return'$'+(n/1e9).toFixed(2)+'B';
+  if(n>=1e6)return'$'+(n/1e6).toFixed(2)+'M';
+  return'$'+n.toLocaleString();
+}
+function spark(chg){
+  const up=(chg||0)>=0;
+  return Array.from({length:7},(_,i)=>{
+    const h=Math.max(2,Math.floor(Math.random()*16));
+    const col=i===6?(up?'#16a34a':'#dc2626'):'rgba(255,255,255,0.12)';
+    return`<div style="width:3px;height:${h}px;border-radius:1px 1px 0 0;background:${col}"></div>`;
+  }).join('');
+}
+
+/* Alerts */
+function checkAlert(a){
+  const r=[];
+  if(a.edgeSc>=8.5)r.push('Edge '+a.edgeSc);
+  if(a.whale.score>=8)r.push('Whale accumulating');
+  if(a.rsiVal<=32)r.push('RSI oversold '+a.rsiVal);
+  if(a.cat.boost>=2.5)r.push(a.cat.lbl);
+  if(a.vd.score>=8&&a.aiSc>=7)r.push('Breakout vol');
+  if(r.length>=2){a.hasAlert=true;return{sym:a.sym,name:a.name,reasons:r};}
+  a.hasAlert=false;return null;
+}
+function processAlerts(data){
+  alerts=[];
+  data.forEach(a=>{const al=checkAlert(a);if(al)alerts.push(al);});
+  document.getElementById('k3').textContent=alerts.length;
+  const bar=document.getElementById('al-bar');
+  const inner=document.getElementById('al-inner');
+  const sndNote=document.getElementById('al-snd');
+  if(alerts.length){
+    bar.style.display='flex';
+    inner.innerHTML=alerts.map(a=>
+      `<span style="font-size:10px;font-weight:600;background:#7c3aed;color:#fff;border-radius:4px;padding:2px 8px;flex-shrink:0">⚡</span><span style="font-size:11px;color:#e2e8f0">${a.sym} — ${a.reasons.slice(0,2).join(' · ')}</span>`
+    ).join('<span style="width:0.5px;height:10px;background:rgba(255,255,255,0.1);margin:0 5px;flex-shrink:0;display:inline-block"></span>');
+    if(soundEnabled){playPing();sndNote.textContent='';}
+    else{sndNote.textContent='🔇 Enable sound for audio alerts';}
+  }else{
+    bar.style.display='none';
+  }
+}
+
+/* Sentiment cards */
+function updateCards(data){
+  const avgChg=data.reduce((a,b)=>a+(b.chg||0),0)/data.length;
+  const fg=Math.round(Math.min(100,Math.max(0,50+avgChg*3+(Math.random()*8-4))));
+  const fgLbl=fg>=75?'Extreme Greed':fg>=55?'Greed':fg>=45?'Neutral':fg>=25?'Fear':'Extreme Fear';
+  const fgCol=fg>=55?'#16a34a':fg>=45?'#d4a843':'#dc2626';
+  document.getElementById('sv').textContent=fg;document.getElementById('sv').style.color=fgCol;
+  document.getElementById('ss').textContent=fgLbl;
+  document.getElementById('sb2').style.width=fg+'%';document.getElementById('sb2').style.background=fgCol;
+  const wb=data.filter(x=>x.whale.score>=7).length;
+  document.getElementById('wv').textContent=wb;
+  document.getElementById('ws').textContent=Math.round(wb/data.length*100)+'% bullish whale signals';
+  document.getElementById('wb').style.width=Math.round(wb/data.length*100)+'%';
+  const vc=data.filter(x=>x.vd.score>=8).length;
+  document.getElementById('vv').textContent=vc;
+  document.getElementById('vs').textContent='assets with unusual volume';
+  document.getElementById('vb').style.width=Math.round(vc/data.length*100)+'%';
+  const cc=data.filter(x=>x.cat.boost>0).length;
+  document.getElementById('cv').textContent=cc;
+  document.getElementById('cs').textContent='active catalyst events next 7d';
+  document.getElementById('cb').style.width=Math.round(cc/data.length*100)+'%';
+}
+
+/* KPIs */
+function updKPIs(d){
+  document.getElementById('k0').textContent=d.length;
+  const avg=d.length?(d.reduce((a,b)=>a+b.aiSc,0)/d.length):0;
+  document.getElementById('k1').textContent=avg.toFixed(1);
+  document.getElementById('k2').textContent=d.filter(x=>x.aiSc>=7.5).length;
+  document.getElementById('k4').textContent=d.filter(x=>x.whale.score>=7).length;
+  const ae=d.length?(d.reduce((a,b)=>a+b.edgeSc,0)/d.length):0;
+  document.getElementById('k5').textContent=ae>=7.5?'🚀 Bullish':ae>=6?'📈 Leaning Up':ae<=3.5?'🐻 Bearish':'😐 Neutral';
+}
+
+/* Filter */
+function applyFilter(d){
+  if(filt==='all')return d;
+  if(filt==='buy')return d.filter(x=>x.aiSc>=7.5);
+  if(filt==='hold')return d.filter(x=>x.aiSc>=4.5&&x.aiSc<7.5);
+  if(filt==='sell')return d.filter(x=>x.aiSc<4.5);
+  if(filt==='alert')return d.filter(x=>x.hasAlert);
+  if(filt==='whale')return d.filter(x=>x.whale.score>=7);
+  if(filt==='gainers')return[...d].sort((a,b)=>b.chg-a.chg).slice(0,10);
+  if(filt==='losers')return[...d].sort((a,b)=>a.chg-b.chg).slice(0,10);
+  return d.filter(x=>(x.tags||[]).includes(filt));
+}
+
+/* Render */
+function render(){
+  const vis=applyFilter(rows).sort((a,b)=>b.edgeSc-a.edgeSc);
+  updKPIs(vis);
+  const tb=document.getElementById('tbody');
+  if(!vis.length){tb.innerHTML=`<tr><td colspan="13" style="text-align:center;padding:2rem;color:#475569;font-family:sans-serif">No assets match this filter.</td></tr>`;return;}
+  tb.innerHTML=vis.map((a,i)=>{
+    const s=sig(a.aiSc),up=(a.chg||0)>=0;
+    const chgStr=(up?'+':'')+((a.chg||0).toFixed(2))+'%';
+    const pBg=s==='buy'?'rgba(22,163,74,0.1)':s==='hold'?'rgba(212,168,67,0.1)':'rgba(220,38,38,0.1)';
+    const pCol=s==='buy'?'#16a34a':s==='hold'?'#d4a843':'#dc2626';
+    const pBorder=s==='buy'?'rgba(22,163,74,0.3)':s==='hold'?'rgba(212,168,67,0.3)':'rgba(220,38,38,0.3)';
+    const pLbl=s==='buy'?'▲ BUY':s==='hold'?'◆ HOLD':'▼ SELL';
+    const rBorder=a.aiSc>=7.5?'#16a34a':a.aiSc>=4.5?'#d4a843':'#dc2626';
+    const rCol=rBorder;const rBg=a.aiSc>=7.5?'rgba(22,163,74,0.1)':a.aiSc>=4.5?'rgba(212,168,67,0.1)':'rgba(220,38,38,0.1)';
+    const ec=a.edgeSc>=8?'#16a34a':a.edgeSc>=6?'#d4a843':'#dc2626';
+    const wBg=a.whale.bull?'rgba(22,163,74,0.1)':a.whale.score===5?'rgba(255,255,255,0.04)':'rgba(220,38,38,0.1)';
+    const wCol=a.whale.bull?'#16a34a':a.whale.score===5?'#94a3b8':'#dc2626';
+    const wBorder=a.whale.bull?'rgba(22,163,74,0.3)':a.whale.score===5?'rgba(255,255,255,0.1)':'rgba(220,38,38,0.3)';
+    const af=a.hasAlert?`<span style="font-size:9px;font-weight:500;background:#7c3aed;color:#fff;border-radius:3px;padding:1px 5px;margin-left:3px">⚡</span>`:'';
+    const dm=a.demo?`<span style="font-size:8px;color:#475569;margin-left:2px">(est)</span>`:'';
+    const safeName=a.name.replace(/'/g,"\\'").replace(/&/g,'and');
+    return`<tr style="border-bottom:0.5px solid rgba(255,255,255,0.05);${a.hasAlert?'border-left:2px solid #7c3aed':''}" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background=''">
+<td style="padding:8px 9px;font-size:10px;color:#475569;font-family:monospace;text-align:right">${i+1}</td>
+<td style="padding:8px 9px"><div style="display:flex;align-items:center;gap:7px">
+  <div style="width:28px;height:28px;border-radius:50%;background:#12151c;border:0.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:500;color:#d4a843;flex-shrink:0;font-family:monospace">${a.sym.slice(0,3)}</div>
+  <div><div style="font-size:12px;font-weight:500;color:#e2e8f0;font-family:sans-serif">${a.sym}${af}</div><div style="font-size:9px;color:#475569;font-family:sans-serif">${a.name}</div></div>
+</div></td>
+<td style="padding:8px 9px;font-family:monospace;font-size:11px;color:#e2e8f0">${fp(a.price)}${dm}</td>
+<td style="padding:8px 9px;font-family:monospace;font-size:11px;color:${up?'#16a34a':'#dc2626'}">${chgStr}</td>
+<td style="padding:8px 9px;font-family:monospace;font-size:10px;color:#94a3b8">${fl(a.mc)}</td>
+<td style="padding:8px 9px;text-align:center"><div style="display:flex;justify-content:center"><div style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;border:2px solid ${rBorder};color:${rCol};background:${rBg};font-family:monospace">${a.aiSc.toFixed(1)}</div></div></td>
+<td style="padding:8px 9px;text-align:center"><span style="display:inline-flex;font-size:9px;font-weight:500;letter-spacing:.04em;padding:2px 8px;border-radius:10px;background:${pBg};color:${pCol};border:0.5px solid ${pBorder};font-family:sans-serif">${pLbl}</span></td>
+<td style="padding:8px 9px;text-align:center"><div style="display:flex;flex-direction:column;align-items:center;gap:1px"><span style="font-size:11px;font-weight:500;color:${rsiCol(a.rsiVal)};font-family:monospace">${a.rsiVal}</span><span style="font-size:8px;color:${rsiCol(a.rsiVal)};font-family:sans-serif">${rsiLbl(a.rsiVal)}</span></div></td>
+<td style="padding:8px 9px;text-align:center"><div style="display:flex;align-items:flex-end;gap:1.5px;height:20px;justify-content:center">${spark(a.chg)}</div></td>
+<td style="padding:8px 9px;text-align:center"><span style="font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500;background:${wBg};color:${wCol};border:0.5px solid ${wBorder};font-family:sans-serif">${a.whale.lbl}</span></td>
+<td style="padding:8px 9px;text-align:center">${a.cat.lbl&&a.cat.lbl!=='—'?`<span style="font-size:9px;padding:2px 6px;border-radius:3px;background:rgba(124,58,237,0.1);color:#7c3aed;border:0.5px solid rgba(124,58,237,0.3);font-weight:500;font-family:sans-serif">${a.cat.lbl}</span>`:'<span style="font-size:9px;color:#475569">—</span>'}</td>
+<td style="padding:8px 9px;text-align:center"><div style="display:flex;flex-direction:column;align-items:center;gap:2px"><span style="font-size:11px;font-weight:500;font-family:monospace;color:${ec}">${a.edgeSc.toFixed(1)}</span><div style="width:32px;height:3px;background:rgba(255,255,255,0.06);border-radius:1px;overflow:hidden"><div style="height:100%;background:${ec};width:${a.edgeSc*10}%;border-radius:1px"></div></div></div></td>
+<td style="padding:8px 9px"><button onclick="getIns('${a.sym}','${safeName}',${(a.price||0).toFixed(4)},${(a.chg||0).toFixed(2)},${a.aiSc},${a.rsiVal},${a.edgeSc},'${s}','${a.type}','${a.whale.lbl}','${a.cat.lbl||'none'}','${a.vd.lbl}')" style="font-size:9px;font-weight:500;padding:3px 9px;border-radius:4px;border:0.5px solid rgba(212,168,67,0.3);background:rgba(212,168,67,0.08);color:#d4a843;cursor:pointer;font-family:sans-serif${openSym===a.sym?';background:rgba(212,168,67,0.18);border-color:#d4a843':''}">⚡ AI</button></td>
+</tr>`;
+  }).join('');
+}
+
+/* Fetch crypto */
+async function fetchCrypto(){
+  try{
+    const r=await fetch('https://api.coinpaprika.com/v1/tickers?limit=200',{signal:AbortSignal.timeout(8000)});
+    if(!r.ok)throw new Error('status '+r.status);
+    const raw=await r.json();
+    const lkp={};CRYPTO.forEach(c=>{lkp[c.id]=c;});
+    const out=[];
+    for(const item of raw){const m=lkp[item.id];if(!m)continue;const u=item.quotes?.USD;if(!u)continue;out.push(enrich({sym:m.sym,name:m.name,price:u.price,chg:u.percent_change_24h,mc:u.market_cap,vol:u.volume_24h,tags:['crypto'],type:'crypto'}));}
+    if(out.length)return out;throw new Error('empty');
+  }catch(e){
+    return CRYPTO.map(c=>{const ch=(Math.random()-.45)*12;return enrich({sym:c.sym,name:c.name,price:Math.random()*50000+1,chg:ch,mc:Math.random()*500e9,vol:Math.random()*20e9,tags:['crypto'],type:'crypto',demo:true});});
+  }
+}
+
+/* Fetch stocks */
+async function fetchOne(s){
+  const urls=[`https://query1.finance.yahoo.com/v8/finance/chart/${s.sym}?interval=1d&range=5d`,`https://corsproxy.io/?${encodeURIComponent('https://query1.finance.yahoo.com/v8/finance/chart/'+s.sym+'?interval=1d&range=5d')}`];
+  for(const url of urls){
+    try{
+      const r=await fetch(url,{signal:AbortSignal.timeout(6000)});if(!r.ok)continue;
+      const j=await r.json();const res=j?.chart?.result?.[0];if(!res)continue;
+      const cl=res.indicators?.quote?.[0]?.close?.filter(x=>x!==null);if(!cl||cl.length<2)continue;
+      const price=cl[cl.length-1],prev=cl[cl.length-2];
+      return enrich({sym:s.sym,name:s.name,price,chg:((price-prev)/prev)*100,mc:res.meta?.marketCap||null,vol:res.indicators?.quote?.[0]?.volume?.slice(-1)[0]||null,tags:s.tags,type:'stock'});
+    }catch{}
+  }
+  const ch=(Math.random()-.45)*6;
+  return enrich({sym:s.sym,name:s.name,price:50+Math.random()*400,chg:ch,mc:null,vol:null,tags:s.tags,type:'stock',demo:true});
+}
+async function fetchStocks(){
+  const out=[];
+  for(let i=0;i<STOCKS.length;i+=4){
+    const chunk=STOCKS.slice(i,i+4);
+    const res=await Promise.allSettled(chunk.map(s=>fetchOne(s)));
+    res.forEach(r=>{if(r.status==='fulfilled'&&r.value)out.push(r.value);});
+  }
+  return out;
+}
+
+/* Load */
+async function loadData(){
+  const tb=document.getElementById('tbody');
+  tb.innerHTML=`<tr><td colspan="13" style="text-align:center;padding:2rem;color:#475569;font-family:sans-serif"><span class="dsp"></span>${dtab==='crypto'?'Fetching crypto data...':'Fetching stock data (~15s)...'}</td></tr>`;
+  document.getElementById('rfb').textContent='↻ Loading...';
+  closeIns();
+  try{
+    rows=dtab==='crypto'?await fetchCrypto():await fetchStocks();
+    updateCards(rows);processAlerts(rows);render();
+    document.getElementById('dash-upd').textContent='Updated '+new Date().toLocaleTimeString();
+  }catch(e){
+    tb.innerHTML=`<tr><td colspan="13" style="text-align:center;padding:2rem;color:#dc2626;font-family:sans-serif">Error: ${e.message}</td></tr>`;
+  }
+  document.getElementById('rfb').textContent='↻ Refresh';
+  setTimeout(()=>{if(!openSym)loadData();},180000);
+}
+
+/* AI Insight */
+async function getIns(sym,name,price,chg,aiSc,rsiVal,edgeSc,s,type,whale,cat,vol){
+  if(openSym===sym){closeIns();return;}
+  openSym=sym;
+  document.getElementById('isym').textContent=sym;
+  document.getElementById('inm').textContent=name;
+  document.getElementById('inb').innerHTML='<span class="dsp"></span> Generating analysis...';
+  document.getElementById('ins').style.display='block';
+  render();
+  const prompt=`You are a seasoned quantitative trader. Deliver a sharp, actionable trading brief on ${name} (${sym}).
+Live data: Price $${price} | 24h ${chg>0?'+':''}${chg}% | AI Score ${aiSc}/10 | Edge Score ${edgeSc}/10
+RSI: ${rsiVal} (${rsiVal>=70?'overbought':rsiVal<=30?'oversold':'neutral'}) | Whale: ${whale} | Catalyst: ${cat} | Volume: ${vol} | Signal: ${s.toUpperCase()} | Type: ${type}
+Write a tight 4-point brief: 1.SITUATION 2.EDGE (why this moves before crowd) 3.RISK 4.ACTION with entry guidance. Direct. No disclaimers.`;
+  try{
+    const r=await fetch(CLAUDE,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const d=await r.json();
+    document.getElementById('inb').textContent=d?.content?.[0]?.text||'No response.';
+  }catch(e){document.getElementById('inb').innerHTML=`<span style="color:#dc2626">Error: ${e.message}</span>`;}
+}
+function closeIns(){openSym=null;document.getElementById('ins').style.display='none';}
+function clearAlerts(){alerts=[];document.getElementById('al-bar').style.display='none';document.getElementById('k3').textContent='0';}
+
+function switchTab(t,el){
+  dtab=t;filt='all';
+  document.querySelectorAll('.dnt').forEach(x=>x.classList.remove('on'));el.classList.add('on');
+  document.querySelectorAll('.dfb').forEach(x=>x.classList.remove('on'));
+  document.querySelector('.dfb').classList.add('on');
+  document.getElementById('sf').style.display=t==='stocks'?'flex':'none';
+  loadData();
+}
+function setF(f,el){
+  filt=f;
+  document.querySelectorAll('.dfb').forEach(x=>x.classList.remove('on'));el.classList.add('on');
+  render();
+}
+
+document.getElementById('sf').style.display='none';
+</script>
+
+<!-- ═══════════════════════════════════════
+     FREE TRIAL MODAL
+═══════════════════════════════════════ -->
+<div class="modal-overlay" id="trial-modal">
+  <div class="modal-box">
+    <div class="modal-glow"></div>
+    <button class="modal-close" onclick="closeTrialModal()">✕</button>
+
+    <!-- FORM STATE -->
+    <div id="modal-form-state">
+      <span class="modal-icon">🎁</span>
+      <h2 class="modal-h">14 DAYS <span>FREE</span></h2>
+      <p class="modal-sub">Full Pro access. Every signal, every filter, AI insights on demand. No credit card needed.</p>
+      <div class="modal-features">
+        <div class="modal-feat">All 5 signal layers — RSI, Whale, Catalyst, Volume, Sentiment</div>
+        <div class="modal-feat">AI Insight Engine unlimited — 4-point trading briefs per asset</div>
+        <div class="modal-feat">Multi-signal alerts with sound ping</div>
+        <div class="modal-feat">Crypto + Stocks — 35+ assets tracked live</div>
+        <div class="modal-feat">All 13 filters including S&P 500, Nasdaq, Dividend, Penny</div>
+        <div class="modal-feat">Edge Score composite ranking — your unfair advantage</div>
+      </div>
+      <div class="modal-form">
+        <input class="modal-input" type="text" id="trial-name" placeholder="Your first name" autocomplete="given-name">
+        <input class="modal-input" type="email" id="trial-email" placeholder="Your email address" autocomplete="email">
+        <button class="modal-submit" onclick="startTrial()">Start My Free 14-Day Trial →</button>
+      </div>
+      <p class="modal-note">No credit card required. After 14 days, choose a paid plan to continue or your account pauses automatically.</p>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div class="modal-success" id="modal-success-state">
+      <span class="success-icon">🚀</span>
+      <div class="success-h">YOU'RE IN.</div>
+      <p class="success-sub">Your 14-day free trial is active. Every feature is unlocked. Start trading smarter right now.</p>
+      <div class="trial-timer" id="trial-timer">⏱ Trial expires in: <strong id="trial-countdown-text">14d 00h 00m 00s</strong></div>
+      <button class="modal-submit" onclick="closeTrialModal();openDash()">🚀 Open Dashboard Now</button>
+      <p class="modal-note" style="margin-top:12px">A confirmation was sent to <span id="trial-email-display" style="color:var(--text2)"></span></p>
+    </div>
+
+  </div>
+</div>
+
+<!-- TRIAL ACTIVE BANNER (shows after trial started) -->
+<div id="trial-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9998;background:linear-gradient(90deg,rgba(34,197,94,0.12),rgba(6,7,9,0.98));border-top:1px solid rgba(34,197,94,0.25);padding:10px 20px;display:none;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+  <div style="display:flex;align-items:center;gap:10px;font-size:12px;color:#22c55e;font-family:monospace">
+    <span style="width:7px;height:7px;border-radius:50%;background:#22c55e;animation:blink 1.5s infinite;flex-shrink:0;display:inline-block"></span>
+    FREE TRIAL ACTIVE &nbsp;·&nbsp; <span id="banner-countdown">14 days remaining</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <a href="#pricing" style="font-size:11px;color:var(--text2);text-decoration:none" onclick="closeBanner()">Upgrade Now</a>
+    <button onclick="closeBanner()" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;line-height:1">✕</button>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════
+   FREE TRIAL LOGIC
+══════════════════════════════════════════ */
+let trialEndTime = null;
+let trialTimerInterval = null;
+
+function openTrialModal() {
+  // If trial already active, go straight to dashboard
+  const saved = localStorage.getItem('ama_trial_end');
+  if (saved && Date.now() < parseInt(saved)) {
+    openDash();
+    return;
+  }
+  document.getElementById('trial-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeTrialModal() {
+  document.getElementById('trial-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function startTrial() {
+  const name = document.getElementById('trial-name').value.trim();
+  const email = document.getElementById('trial-email').value.trim();
+  if (!name) { document.getElementById('trial-name').focus(); shakeInput('trial-name'); return; }
+  if (!email || !email.includes('@')) { document.getElementById('trial-email').focus(); shakeInput('trial-email'); return; }
+
+  // Set trial end 14 days from now
+  trialEndTime = Date.now() + (14 * 24 * 60 * 60 * 1000);
+  localStorage.setItem('ama_trial_end', trialEndTime.toString());
+  localStorage.setItem('ama_trial_name', name);
+  localStorage.setItem('ama_trial_email', email);
+
+  // Show success state
+  document.getElementById('modal-form-state').style.display = 'none';
+  document.getElementById('modal-success-state').classList.add('show');
+  document.getElementById('trial-email-display').textContent = email;
+
+  // Start countdown
+  startCountdown();
+  showTrialBanner(name);
+}
+
+function shakeInput(id) {
+  const el = document.getElementById(id);
+  el.style.borderColor = '#ef4444';
+  el.style.animation = 'shake 0.3s ease';
+  setTimeout(() => { el.style.borderColor = ''; el.style.animation = ''; }, 600);
+}
+
+function startCountdown() {
+  if (trialTimerInterval) clearInterval(trialTimerInterval);
+  trialTimerInterval = setInterval(() => {
+    const remaining = trialEndTime - Date.now();
+    if (remaining <= 0) {
+      clearInterval(trialTimerInterval);
+      document.getElementById('trial-countdown-text').textContent = 'Trial expired';
+      return;
+    }
+    const d = Math.floor(remaining / 86400000);
+    const h = Math.floor((remaining % 86400000) / 3600000);
+    const m = Math.floor((remaining % 3600000) / 60000);
+    const s = Math.floor((remaining % 60000) / 1000);
+    const txt = `${d}d ${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`;
+    const el = document.getElementById('trial-countdown-text');
+    if (el) el.textContent = txt;
+    const bc = document.getElementById('banner-countdown');
+    if (bc) bc.textContent = `${d} day${d!==1?'s':''} remaining`;
+    const cc = document.getElementById('trial-countdown-card');
+    if (cc) cc.textContent = `⏱ ${d} days ${h}h ${m}m remaining`;
+  }, 1000);
+}
+
+function showTrialBanner(name) {
+  const banner = document.getElementById('trial-banner');
+  if (banner) { banner.style.display = 'flex'; }
+}
+
+function closeBanner() {
+  const b = document.getElementById('trial-banner');
+  if (b) b.style.display = 'none';
+}
+
+// On page load — check if trial already active
+(function checkExistingTrial() {
+  const saved = localStorage.getItem('ama_trial_end');
+  const name = localStorage.getItem('ama_trial_name');
+  if (saved && Date.now() < parseInt(saved)) {
+    trialEndTime = parseInt(saved);
+    startCountdown();
+    showTrialBanner(name || 'Trader');
+    // Update trial button text in nav
+    const navTrial = document.querySelector('.nav-trial');
+    if (navTrial) {
+      navTrial.textContent = '✅ Trial Active';
+      navTrial.onclick = (e) => { e.preventDefault(); openDash(); };
+    }
+  }
+})();
+
+// Shake animation
+const shakeStyle = document.createElement('style');
+shakeStyle.textContent = '@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}';
+document.head.appendChild(shakeStyle);
+</script>
+</body>
+</html>
