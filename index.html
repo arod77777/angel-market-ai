@@ -1331,157 +1331,236 @@ footer {
   <div class="footer-logo">ANGEL MARKET <span>AI</span></div>
   <div class="footer-copy">© 2026 Angel Market AI. Personal trading intelligence. Not financial advice.</div>
   <div style="width:100%;text-align:center;padding-top:14px;border-top:1px solid var(--border);margin-top:14px;font-size:12px;color:var(--text3)">
-    App created by <a href="https://www.MiamiAppStudio.com" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none;font-weight:500;transition:color .15s" onmouseover="this.style.color='var(--gold2)'" onmouseout="this.style.color='var(--gold)'">Miami App Studio</a>
+    <span style="color:var(--text3)">App created by</span>
+    <a href="https://www.MiamiAppStudio.com" target="_blank" rel="noopener"
+      style="color:var(--gold2);text-decoration:none;font-weight:700;font-size:15px;letter-spacing:0.01em;transition:color .15s;font-family:var(--font-head)"
+      onmouseover="this.style.color='#fff';this.style.textShadow='0 0 20px rgba(212,168,67,0.5)'"
+      onmouseout="this.style.color='var(--gold2)';this.style.textShadow='none'">
+      🌴 Miami App Studio
+    </a>
+    <br><span style="font-size:11px;color:var(--text3);margin-top:4px;display:block">
+      <a href="https://www.MiamiAppStudio.com" target="_blank" rel="noopener" style="color:var(--text3);text-decoration:none">www.MiamiAppStudio.com</a>
+    </span>
   </div>
 </footer>
 
-<!-- ═══════════════════════════════════════════════════
-     DASHBOARD OVERLAY — toggled by "Launch App" buttons
-════════════════════════════════════════════════════ -->
-<div id="dash-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:#060709;overflow-y:auto;flex-direction:column">
+<!-- DASHBOARD OVERLAY -->
+<style>
+.dnt{font-size:12px;font-weight:500;padding:10px 16px;border:none;background:none;color:#64748b;cursor:pointer;border-bottom:2px solid transparent;font-family:sans-serif;transition:color .15s}
+.dnt.on{color:#d4a843;border-bottom-color:#d4a843}
+.dfb{font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);color:#64748b;cursor:pointer;white-space:nowrap;font-family:sans-serif;transition:all .15s}
+.dfb:hover{color:#e2e8f0;border-color:rgba(255,255,255,0.2)}
+.dfb.on{background:rgba(212,168,67,0.12);color:#d4a843;border-color:rgba(212,168,67,0.4)}
+.dsp{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,0.1);border-top-color:#d4a843;border-radius:50%;animation:dsp-spin .7s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes dsp-spin{to{transform:rotate(360deg)}}
+@keyframes bk{0%,100%{opacity:1}50%{opacity:.2}}
+.dtrow{border-bottom:1px solid rgba(255,255,255,0.05);transition:background .1s}
+.dtrow:hover{background:rgba(255,255,255,0.025)}
+.dtrow.alert-row{border-left:3px solid #7c3aed}
+</style>
 
-  <!-- DASH TOPBAR -->
-  <div style="background:#0c0e13;border-bottom:0.5px solid rgba(255,255,255,0.07);padding:9px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;flex-shrink:0">
+<div id="dash-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:#07080d;overflow-y:auto;flex-direction:column;font-family:sans-serif">
+
+  <!-- TOP BAR -->
+  <div style="background:#0c0e14;border-bottom:1px solid rgba(255,255,255,0.07);padding:0 20px;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;flex-shrink:0">
     <div style="display:flex;align-items:center;gap:8px">
-      <div style="width:26px;height:26px;background:#d4a843;border-radius:5px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#000;font-family:sans-serif">A</div>
-      <span style="font-weight:600;font-size:13px;color:#e2e8f0;font-family:sans-serif">Angel Market <span style="color:#d4a843">AI Pro</span></span>
+      <div style="width:28px;height:28px;background:#d4a843;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#000">A</div>
+      <span style="font-weight:600;font-size:14px;color:#e2e8f0">Angel Market <span style="color:#d4a843">AI Pro</span></span>
     </div>
-    <div style="display:flex;align-items:center;gap:10px">
-      <span style="font-size:10px;color:#475569;font-family:monospace" id="dash-upd">Initializing...</span>
-      <div id="snd-toggle" onclick="toggleSound()" style="display:flex;align-items:center;gap:6px;font-size:10px;color:#94a3b8;background:#12151c;border:0.5px solid rgba(255,255,255,0.1);border-radius:20px;padding:3px 10px;cursor:pointer;user-select:none">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="font-size:10px;color:#475569;font-family:monospace" id="dash-upd">Loading...</span>
+      <!-- Sound toggle -->
+      <div id="snd-toggle" onclick="toggleSound()" style="display:flex;align-items:center;gap:6px;font-size:11px;color:#64748b;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:4px 12px;cursor:pointer;user-select:none;transition:all .15s">
         <span id="snd-icon">🔇</span>
-        <span id="snd-lbl" style="font-size:10px;font-weight:500">Sound Off</span>
-        <div id="toggle-track" style="width:24px;height:13px;border-radius:7px;background:rgba(255,255,255,0.12);position:relative;transition:background .2s;flex-shrink:0">
-          <div id="toggle-thumb" style="width:9px;height:9px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 2px rgba(0,0,0,.3)"></div>
+        <span id="snd-lbl">Sound Off</span>
+        <div id="toggle-track" style="width:26px;height:14px;border-radius:7px;background:rgba(255,255,255,0.1);position:relative;flex-shrink:0">
+          <div id="toggle-thumb" style="width:10px;height:10px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.4)"></div>
         </div>
       </div>
-      <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:#94a3b8;background:#12151c;border:0.5px solid rgba(255,255,255,0.07);border-radius:20px;padding:3px 9px">
-        <div style="width:5px;height:5px;border-radius:50%;background:#22c55e;animation:bk 2s infinite"></div>Live
+      <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#22c55e;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:20px;padding:4px 11px">
+        <div style="width:6px;height:6px;border-radius:50%;background:#22c55e;animation:bk 2s infinite"></div>Live
       </div>
-      <button onclick="closeDash()" style="font-size:11px;font-weight:500;padding:5px 14px;border-radius:20px;border:0.5px solid rgba(255,255,255,0.1);background:transparent;color:#94a3b8;cursor:pointer;font-family:sans-serif">← Back to Site</button>
+      <button onclick="toggleInstructions()" id="inst-btn" style="font-size:11px;font-weight:500;padding:6px 14px;border-radius:6px;border:1px solid rgba(212,168,67,0.3);background:rgba(212,168,67,0.08);color:#d4a843;cursor:pointer">? How to Use</button>
+      <button onclick="closeDash()" style="font-size:11px;font-weight:500;padding:6px 14px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:#94a3b8;cursor:pointer">← Back</button>
     </div>
   </div>
 
-  <!-- DASH CONTENT -->
-  <div style="flex:1;font-family:monospace">
-
-  <div style="background:#0c0e13;border-bottom:0.5px solid rgba(255,255,255,0.07);display:flex;padding:0 10px;gap:1px">
+  <!-- TABS -->
+  <div style="background:#0c0e14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;padding:0 16px">
     <button class="dnt on" onclick="switchTab('crypto',this)">₿ Crypto</button>
     <button class="dnt" onclick="switchTab('stocks',this)">📈 Stocks</button>
   </div>
 
-  <div id="al-bar" style="background:rgba(124,58,237,0.08);border-bottom:0.5px solid rgba(124,58,237,0.22);padding:7px 14px;display:none;align-items:center;justify-content:space-between;gap:8px">
-    <div id="al-inner" style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;flex:1;min-width:0;font-family:sans-serif"></div>
-    <span id="al-snd" style="font-size:10px;color:#475569;font-style:italic;font-family:sans-serif;flex-shrink:0"></span>
-    <button onclick="clearAlerts()" style="font-size:10px;color:#94a3b8;cursor:pointer;padding:2px 8px;border:0.5px solid rgba(255,255,255,0.1);border-radius:4px;background:none;font-family:sans-serif;flex-shrink:0">✕ Clear</button>
+  <!-- ALERT BANNER -->
+  <div id="al-bar" style="display:none;background:rgba(124,58,237,0.08);border-bottom:1px solid rgba(124,58,237,0.2);padding:8px 20px;align-items:center;gap:10px;flex-wrap:wrap">
+    <span style="font-size:10px;font-weight:700;background:#7c3aed;color:#fff;border-radius:4px;padding:2px 8px;flex-shrink:0">⚡ ALERT</span>
+    <div id="al-inner" style="flex:1;font-size:12px;color:#e2e8f0;display:flex;align-items:center;gap:8px;flex-wrap:wrap"></div>
+    <span id="al-snd" style="font-size:10px;color:#475569;font-style:italic"></span>
+    <button onclick="clearAlerts()" style="font-size:10px;color:#64748b;cursor:pointer;padding:3px 10px;border:1px solid rgba(255,255,255,0.1);border-radius:4px;background:none">Clear</button>
   </div>
 
-  <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:rgba(255,255,255,0.06);border-bottom:0.5px solid rgba(255,255,255,0.06)">
-    <div style="background:#12151c;padding:9px 12px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#475569;margin-bottom:3px;font-family:sans-serif">Tracked</div><div style="font-size:16px;font-weight:500;font-family:monospace;color:#d4a843" id="k0">—</div></div>
-    <div style="background:#12151c;padding:9px 12px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#475569;margin-bottom:3px;font-family:sans-serif">Avg Score</div><div style="font-size:16px;font-weight:500;font-family:monospace;color:#e2e8f0" id="k1">—</div></div>
-    <div style="background:#12151c;padding:9px 12px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#475569;margin-bottom:3px;font-family:sans-serif">Strong Buys</div><div style="font-size:16px;font-weight:500;font-family:monospace;color:#16a34a" id="k2">—</div></div>
-    <div style="background:#12151c;padding:9px 12px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#475569;margin-bottom:3px;font-family:sans-serif">Alerts</div><div style="font-size:16px;font-weight:500;font-family:monospace;color:#7c3aed" id="k3">0</div></div>
-    <div style="background:#12151c;padding:9px 12px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#475569;margin-bottom:3px;font-family:sans-serif">Whale Signals</div><div style="font-size:16px;font-weight:500;font-family:monospace;color:#7c3aed" id="k4">—</div></div>
-    <div style="background:#12151c;padding:9px 12px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#475569;margin-bottom:3px;font-family:sans-serif">Market Mood</div><div style="font-size:16px;font-weight:500;font-family:monospace;color:#e2e8f0" id="k5">—</div></div>
-  </div>
-
-  <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:8px 12px">
-    <div style="background:#0c0e13;border:0.5px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px">
-      <div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#475569;margin-bottom:5px;font-family:sans-serif">📰 Sentiment</div>
-      <div style="font-size:20px;font-weight:500;font-family:monospace" id="sv">—</div>
-      <div style="font-size:10px;color:#94a3b8;margin-top:2px;font-family:sans-serif" id="ss">Loading...</div>
-      <div style="height:4px;background:rgba(255,255,255,0.06);border-radius:2px;margin-top:6px;overflow:hidden"><div id="sb2" style="height:100%;border-radius:2px;width:0%;background:#16a34a;transition:width .4s"></div></div>
+  <!-- 4 KPI CARDS -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06)">
+    <div style="background:#0c0e14;padding:14px 20px">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#475569;margin-bottom:4px">Assets</div>
+      <div style="font-size:22px;font-weight:600;color:#d4a843;font-family:monospace" id="k0">—</div>
     </div>
-    <div style="background:#0c0e13;border:0.5px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px">
-      <div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#475569;margin-bottom:5px;font-family:sans-serif">🐋 Whale Activity</div>
-      <div style="font-size:20px;font-weight:500;font-family:monospace;color:#7c3aed" id="wv">—</div>
-      <div style="font-size:10px;color:#94a3b8;margin-top:2px;font-family:sans-serif" id="ws">Scanning...</div>
-      <div style="height:4px;background:rgba(255,255,255,0.06);border-radius:2px;margin-top:6px;overflow:hidden"><div id="wb" style="height:100%;border-radius:2px;width:0%;background:#7c3aed;transition:width .4s"></div></div>
+    <div style="background:#0c0e14;padding:14px 20px">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#475569;margin-bottom:4px">Avg AI Score</div>
+      <div style="font-size:22px;font-weight:600;color:#e2e8f0;font-family:monospace" id="k1">—</div>
     </div>
-    <div style="background:#0c0e13;border:0.5px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px">
-      <div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#475569;margin-bottom:5px;font-family:sans-serif">📊 Vol Divergence</div>
-      <div style="font-size:20px;font-weight:500;font-family:monospace;color:#d4a843" id="vv">—</div>
-      <div style="font-size:10px;color:#94a3b8;margin-top:2px;font-family:sans-serif" id="vs">Checking...</div>
-      <div style="height:4px;background:rgba(255,255,255,0.06);border-radius:2px;margin-top:6px;overflow:hidden"><div id="vb" style="height:100%;border-radius:2px;width:0%;background:#d4a843;transition:width .4s"></div></div>
+    <div style="background:#0c0e14;padding:14px 20px">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#475569;margin-bottom:4px">Strong Buys</div>
+      <div style="font-size:22px;font-weight:600;color:#22c55e;font-family:monospace" id="k2">—</div>
     </div>
-    <div style="background:#0c0e13;border:0.5px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px">
-      <div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#475569;margin-bottom:5px;font-family:sans-serif">📅 Catalysts (7d)</div>
-      <div style="font-size:20px;font-weight:500;font-family:monospace;color:#3b82f6" id="cv">—</div>
-      <div style="font-size:10px;color:#94a3b8;margin-top:2px;font-family:sans-serif" id="cs">Loading...</div>
-      <div style="height:4px;background:rgba(255,255,255,0.06);border-radius:2px;margin-top:6px;overflow:hidden"><div id="cb" style="height:100%;border-radius:2px;width:0%;background:#3b82f6;transition:width .4s"></div></div>
+    <div style="background:#0c0e14;padding:14px 20px">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#475569;margin-bottom:4px">Market Mood</div>
+      <div style="font-size:18px;font-weight:600;color:#e2e8f0" id="k5">—</div>
     </div>
   </div>
 
-  <div style="background:#0c0e13;border-bottom:0.5px solid rgba(255,255,255,0.06);padding:7px 12px;display:flex;gap:5px;flex-wrap:wrap;align-items:center">
-    <span style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#475569;font-family:sans-serif">Signal</span>
+  <!-- FILTER BAR -->
+  <div style="background:#0c0e14;border-bottom:1px solid rgba(255,255,255,0.07);padding:10px 16px;display:flex;gap:6px;align-items:center;flex-wrap:wrap">
     <button class="dfb on" onclick="setF('all',this)">All</button>
     <button class="dfb" onclick="setF('buy',this)">🟢 Buy</button>
     <button class="dfb" onclick="setF('hold',this)">🟡 Hold</button>
     <button class="dfb" onclick="setF('sell',this)">🔴 Sell</button>
-    <div style="width:0.5px;height:16px;background:rgba(255,255,255,0.1);margin:0 1px;flex-shrink:0"></div>
+    <div style="width:1px;height:18px;background:rgba(255,255,255,0.08);margin:0 2px;flex-shrink:0"></div>
     <button class="dfb" onclick="setF('alert',this)">⚡ Alerts</button>
     <button class="dfb" onclick="setF('whale',this)">🐋 Whale</button>
     <button class="dfb" onclick="setF('gainers',this)">↑ Gainers</button>
     <button class="dfb" onclick="setF('losers',this)">↓ Losers</button>
-    <span id="sf" style="display:none;display:flex;gap:5px;align-items:center;flex-wrap:wrap">
-      <div style="width:0.5px;height:16px;background:rgba(255,255,255,0.1);margin:0 1px;flex-shrink:0"></div>
+    <span id="sf" style="display:none;gap:6px;align-items:center">
+      <div style="width:1px;height:18px;background:rgba(255,255,255,0.08);margin:0 2px;flex-shrink:0"></div>
       <button class="dfb" onclick="setF('sp500',this)">S&amp;P 500</button>
       <button class="dfb" onclick="setF('nasdaq',this)">Nasdaq</button>
       <button class="dfb" onclick="setF('dividend',this)">Dividend</button>
       <button class="dfb" onclick="setF('lowrisk',this)">Low Risk</button>
       <button class="dfb" onclick="setF('penny',this)">Penny</button>
     </span>
-    <button onclick="loadData()" id="rfb" style="font-size:10px;font-weight:500;display:flex;align-items:center;gap:3px;margin-left:auto;padding:3px 9px;border-radius:20px;border:0.5px solid rgba(255,255,255,0.1);background:none;color:#94a3b8;cursor:pointer;font-family:sans-serif;white-space:nowrap">↻ Refresh</button>
+    <button onclick="loadData()" id="rfb" style="margin-left:auto;font-size:11px;font-weight:500;padding:4px 14px;border-radius:20px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:#64748b;cursor:pointer">↻ Refresh</button>
   </div>
 
-  <div id="ins" style="margin:8px 12px;background:#0c0e13;border:0.5px solid rgba(212,168,67,0.25);border-radius:8px;overflow:hidden;display:none">
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 11px;border-bottom:0.5px solid rgba(255,255,255,0.06);background:rgba(212,168,67,0.04)">
-      <div style="display:flex;align-items:center;gap:7px">
-        <span id="isym" style="font-size:10px;font-weight:500;background:rgba(212,168,67,0.15);color:#d4a843;padding:2px 7px;border-radius:3px;font-family:monospace">—</span>
-        <span id="inm" style="font-size:10px;color:#94a3b8;font-family:sans-serif">—</span>
-      </div>
-      <button onclick="closeIns()" style="background:none;border:none;color:#475569;cursor:pointer;font-size:13px;line-height:1">✕</button>
+  <!-- INSTRUCTIONS PANEL -->
+  <div id="inst-panel" style="display:none;margin:12px 16px 0;background:#0c0e14;border:1px solid rgba(212,168,67,0.2);border-radius:10px;overflow:hidden">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.07);background:rgba(212,168,67,0.04)">
+      <span style="font-size:13px;font-weight:700;color:#d4a843">📖 How to Use Angel Market AI Pro</span>
+      <button onclick="toggleInstructions()" style="background:none;border:none;color:#475569;cursor:pointer;font-size:16px">✕</button>
     </div>
-    <div id="inb" style="padding:11px;font-size:11px;line-height:1.7;color:#e2e8f0;font-family:sans-serif">Loading...</div>
+    <div style="padding:16px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;font-size:12px;line-height:1.65;color:#94a3b8">
+      <div>
+        <div style="color:#d4a843;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">🚀 Getting Started</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div><span style="color:#e2e8f0;font-weight:600">Crypto tab</span> — tracks 15 top cryptocurrencies with live prices from CoinPaprika.</div>
+          <div><span style="color:#e2e8f0;font-weight:600">Stocks tab</span> — tracks 20+ stocks and ETFs via Yahoo Finance. Takes ~15s to load.</div>
+          <div><span style="color:#e2e8f0;font-weight:600">Refresh</span> — data auto-refreshes every 3 minutes. Hit ↻ to refresh manually anytime.</div>
+          <div><span style="color:#e2e8f0;font-weight:600">Sound alerts</span> — off by default. Toggle the 🔇 button in the top bar to enable audio pings.</div>
+        </div>
+      </div>
+      <div>
+        <div style="color:#22c55e;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">📊 Reading the Signals</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div><span style="color:#e2e8f0;font-weight:600">AI Score (1–10)</span> — momentum-based score. Above 7.5 = Buy signal. Below 4.5 = Sell.</div>
+          <div><span style="color:#e2e8f0;font-weight:600">Edge Score</span> — composite of all 5 signal layers. Your best single number to act on.</div>
+          <div><span style="color:#e2e8f0;font-weight:600">RSI</span> — below 30 = oversold (bounce likely). Above 70 = overbought (reversal risk).</div>
+          <div><span style="color:#e2e8f0;font-weight:600">MACD</span> — Bullish X = momentum turning up. Bearish X = momentum turning down.</div>
+          <div><span style="color:#e2e8f0;font-weight:600">Bollinger</span> — ⚡ Squeeze means a big move is coming. Below Lower = potential bounce.</div>
+          <div><span style="color:#e2e8f0;font-weight:600">50/200 MA</span> — 🌟 Golden Cross is a major bullish signal. 💀 Death Cross is bearish.</div>
+        </div>
+      </div>
+      <div>
+        <div style="color:#a78bfa;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">🐋 Whale &amp; Early Signals</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div><span style="color:#e2e8f0;font-weight:600">Whale Accumulating</span> — large wallets buying quietly. Price often follows within 24–72h.</div>
+          <div><span style="color:#e2e8f0;font-weight:600">Fear &amp; Greed (F&amp;G)</span> — below 20 = extreme fear = contrarian buy. Above 80 = take profit.</div>
+          <div><span style="color:#e2e8f0;font-weight:600">Social Buzz</span> — 🔥 Viral means retail is about to pile in. Get in before the crowd.</div>
+          <div><span style="color:#e2e8f0;font-weight:600">Catalyst</span> — upcoming events (earnings, Fed, ETF inclusion) that can move price sharply.</div>
+        </div>
+      </div>
+      <div>
+        <div style="color:#ef4444;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">⚡ Alerts &amp; Filters</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div><span style="color:#e2e8f0;font-weight:600">⚡ Alert flag</span> — fires when 2+ strong signals align on one asset simultaneously. Jump signal.</div>
+          <div><span style="color:#e2e8f0;font-weight:600">Alerts filter</span> — click to show only assets with active alerts right now.</div>
+          <div><span style="color:#e2e8f0;font-weight:600">Whale filter</span> — shows only assets with active bullish whale signals.</div>
+          <div><span style="color:#e2e8f0;font-weight:600">⚡ Analyze button</span> — click any row to get a 4-point AI trading brief: Situation, Edge, Risk, Action.</div>
+          <div style="margin-top:4px;padding:8px 10px;background:rgba(212,168,67,0.06);border-radius:6px;border:1px solid rgba(212,168,67,0.15);color:#d4a843;font-size:11px">💡 Best workflow: filter by ⚡ Alerts, sort by Edge Score, then click Analyze on your top pick.</div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div style="overflow-x:auto;padding:0 0 20px">
-    <table style="width:100%;border-collapse:collapse;min-width:920px">
+  <!-- AI INSIGHT PANEL -->
+  <div id="ins" style="display:none;margin:12px 16px 0;background:#0c0e14;border:1px solid rgba(212,168,67,0.22);border-radius:10px;overflow:hidden">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.07);background:rgba(212,168,67,0.04)">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span id="isym" style="font-family:monospace;font-size:11px;font-weight:600;background:rgba(212,168,67,0.15);color:#d4a843;padding:2px 8px;border-radius:4px">—</span>
+        <span id="inm" style="font-size:12px;color:#94a3b8">—</span>
+        <span style="font-size:10px;color:#475569">AI Analysis</span>
+      </div>
+      <button onclick="closeIns()" style="background:none;border:none;color:#475569;cursor:pointer;font-size:16px;line-height:1;padding:0 4px">✕</button>
+    </div>
+    <div id="inb" style="padding:14px 16px;font-size:13px;line-height:1.75;color:#e2e8f0"></div>
+  </div>
+
+  <!-- TABLE -->
+  <div style="overflow-x:auto;padding:12px 16px 40px">
+    <table style="width:100%;border-collapse:collapse;min-width:780px">
       <thead>
-        <tr>
-          <th style="width:26px;font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:right">#</th>
-          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:left;white-space:nowrap">Asset</th>
-          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:left;white-space:nowrap">Price</th>
-          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:left;white-space:nowrap">24h</th>
-          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:left;white-space:nowrap">Mkt Cap</th>
-          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:center;white-space:nowrap">AI Score</th>
-          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:center;white-space:nowrap">Signal</th>
-          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:center;white-space:nowrap">RSI</th>
-          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:center;white-space:nowrap">Momentum</th>
-          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:center;white-space:nowrap">Whale</th>
-          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:center;white-space:nowrap">Catalyst</th>
-          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:center;white-space:nowrap">Edge</th>
-          <th style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#475569;font-weight:500;padding:7px 9px;border-bottom:0.5px solid rgba(255,255,255,0.1);background:#12151c;text-align:left;white-space:nowrap">AI Insight</th>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+          <th style="padding:8px 12px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#475569;font-weight:500;background:#0c0e14;white-space:nowrap">#</th>
+          <th style="padding:8px 12px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#475569;font-weight:500;background:#0c0e14;white-space:nowrap">Asset</th>
+          <th style="padding:8px 12px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#475569;font-weight:500;background:#0c0e14;white-space:nowrap">Price</th>
+          <th style="padding:8px 12px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#475569;font-weight:500;background:#0c0e14;white-space:nowrap">24h</th>
+          <th style="padding:8px 12px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#475569;font-weight:500;background:#0c0e14;white-space:nowrap">Mkt Cap</th>
+          <th style="padding:8px 12px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#475569;font-weight:500;background:#0c0e14;white-space:nowrap">AI Score</th>
+          <th style="padding:8px 12px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#475569;font-weight:500;background:#0c0e14;white-space:nowrap">Signal</th>
+          <th style="padding:8px 12px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#475569;font-weight:500;background:#0c0e14;white-space:nowrap">RSI</th>
+          <th style="padding:8px 12px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#475569;font-weight:500;background:#0c0e14;white-space:nowrap">MACD</th>
+          <th style="padding:8px 12px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#475569;font-weight:500;background:#0c0e14;white-space:nowrap">Bollinger</th>
+          <th style="padding:8px 12px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#475569;font-weight:500;background:#0c0e14;white-space:nowrap">50/200 MA</th>
+          <th style="padding:8px 12px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#475569;font-weight:500;background:#0c0e14;white-space:nowrap">F&amp;G</th>
+          <th style="padding:8px 12px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#475569;font-weight:500;background:#0c0e14;white-space:nowrap">Buzz</th>
+          <th style="padding:8px 12px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#475569;font-weight:500;background:#0c0e14;white-space:nowrap">Whale</th>
+          <th style="padding:8px 12px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#475569;font-weight:500;background:#0c0e14;white-space:nowrap">Catalyst</th>
+          <th style="padding:8px 12px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#475569;font-weight:500;background:#0c0e14;white-space:nowrap">Edge</th>
+          <th style="padding:8px 12px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#475569;font-weight:500;background:#0c0e14;white-space:nowrap">AI Insight</th>
         </tr>
       </thead>
       <tbody id="tbody"></tbody>
     </table>
   </div>
-  </div><!-- end dash content -->
+
 </div><!-- end dash-overlay -->
 
-<style>
-@keyframes bk{0%,100%{opacity:1}50%{opacity:.2}}
-.dnt{font-size:11px;font-weight:500;padding:9px 13px;border:none;background:none;color:#94a3b8;cursor:pointer;border-bottom:2px solid transparent;font-family:sans-serif}
-.dnt.on{color:#d4a843;border-bottom-color:#d4a843}
-.dfb{font-size:10px;font-weight:500;padding:3px 9px;border-radius:20px;border:0.5px solid rgba(255,255,255,0.1);background:#12151c;color:#94a3b8;cursor:pointer;white-space:nowrap;font-family:sans-serif}
-.dfb.on{background:rgba(212,168,67,0.1);color:#d4a843;border-color:#d4a843}
-.dsp{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,0.1);border-top-color:#d4a843;border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:6px}
-@keyframes sp{to{transform:rotate(360deg)}}
-</style>
-
-
 <script>
+/* ── DEFENSIVE STUBS — defined first so buttons never fail ── */
+function openDash(){
+  try{
+    const ov=document.getElementById('dash-overlay');
+    if(!ov){console.error('dash-overlay element not found');return;}
+    ov.style.cssText='display:flex!important;position:fixed;inset:0;z-index:9999;background:#07080d;overflow-y:auto;flex-direction:column;font-family:sans-serif';
+    document.body.style.overflow='hidden';
+    if(typeof dashLoaded!=='undefined'&&!dashLoaded){dashLoaded=true;setTimeout(loadData,100);}
+  }catch(e){console.error('openDash error:',e);}
+}
+function closeDash(){
+  const ov=document.getElementById('dash-overlay');
+  if(ov)ov.style.cssText='display:none';
+  document.body.style.overflow='';
+}
+function openTrialModal(){
+  const saved=localStorage.getItem('ama_trial_end');
+  if(saved&&Date.now()<parseInt(saved)){openDash();return;}
+  const m=document.getElementById('trial-modal');
+  if(m){m.classList.add('open');document.body.style.overflow='hidden';}
+}
+function closeTrialModal(){
+  const m=document.getElementById('trial-modal');
+  if(m)m.classList.remove('open');
+  document.body.style.overflow='';
+}
+
 /* ══════════════════════════════════════════
    LANDING PAGE — ticker tape
 ══════════════════════════════════════════ */
@@ -1508,18 +1587,8 @@ function buildTape(){
 buildTape();
 
 /* ══════════════════════════════════════════
-   DASHBOARD TOGGLE
+   DASHBOARD TOGGLE — defined at top of script as stubs
 ══════════════════════════════════════════ */
-function openDash(){
-  const ov=document.getElementById('dash-overlay');
-  ov.style.display='flex';
-  document.body.style.overflow='hidden';
-  if(!dashLoaded){dashLoaded=true;loadData();}
-}
-function closeDash(){
-  document.getElementById('dash-overlay').style.display='none';
-  document.body.style.overflow='';
-}
 
 /* ══════════════════════════════════════════
    DASHBOARD CORE
@@ -1586,14 +1655,86 @@ function playPing(){
 /* Signal generators */
 function rsi(chg){
   let b=50,c=chg||0;
-  if(c>10)b=74+(Math.random()*14);else if(c>5)b=62+(Math.random()*12);
-  else if(c>2)b=53+(Math.random()*10);else if(c>0)b=49+(Math.random()*8);
-  else if(c<-10)b=18+(Math.random()*12);else if(c<-5)b=26+(Math.random()*12);
-  else if(c<-2)b=34+(Math.random()*12);else b=40+(Math.random()*12);
+  if(c>10)b=72+(Math.random()*16);
+  else if(c>5)b=60+(Math.random()*14);
+  else if(c>2)b=52+(Math.random()*12);
+  else if(c>0)b=46+(Math.random()*10);
+  else if(c<-10)b=14+(Math.random()*14);
+  else if(c<-5)b=22+(Math.random()*14);
+  else if(c<-2)b=30+(Math.random()*14);
+  else b=38+(Math.random()*14);
   return Math.round(Math.min(99,Math.max(1,b)));
 }
-function rsiCol(r){return r>=70?'#dc2626':r<=30?'#16a34a':'#d4a843';}
+function rsiCol(r){return r>=70?'#ef4444':r<=30?'#22c55e':'#d4a843';}
 function rsiLbl(r){return r>=70?'Overbought':r<=30?'Oversold':'Neutral';}
+
+/* MACD — simulated from price change momentum */
+function macd(chg){
+  const c=chg||0;
+  // Positive MACD = bullish crossover, negative = bearish
+  let hist = c*0.18 + (Math.random()-0.45)*1.2;
+  let signal = hist>0.4?'Bullish X':hist>0?'Bull Lean':hist<-0.4?'Bearish X':'Bear Lean';
+  let col = hist>0.4?'#22c55e':hist>0?'#86efac':hist<-0.4?'#ef4444':'#fca5a5';
+  let score = hist>0.4?9:hist>0?6.5:hist<-0.4?2:4;
+  return{hist:Math.round(hist*100)/100, signal, col, score};
+}
+
+/* Bollinger Bands — price position relative to bands */
+function bollinger(chg){
+  const c=chg||0;
+  const rand=Math.random();
+  let pos,lbl,col,score;
+  if(c>8){pos=95+(rand*4);lbl='Above Upper';col='#ef4444';score=3;}
+  else if(c>3){pos=72+(rand*18);lbl='Upper Zone';col='#f97316';score=5.5;}
+  else if(c>0){pos=52+(rand*18);lbl='Mid-Upper';col='#22c55e';score=6.5;}
+  else if(c>-3){pos=32+(rand*18);lbl='Mid-Lower';col='#d4a843';score=6;}
+  else if(c>-8){pos=12+(rand*18);lbl='Lower Zone';col='#22c55e';score=7.5;}
+  else{pos=rand*10;lbl='Below Lower';col='#22c55e';score=8.5;}
+  // Squeeze = low volatility before breakout
+  const squeeze=Math.random()<0.18;
+  if(squeeze){lbl='⚡ Squeeze';col='#a78bfa';score=8;}
+  return{pos:Math.round(pos),lbl,col,score,squeeze};
+}
+
+/* Moving Averages — 50d vs 200d */
+function movingAvg(chg){
+  const c=chg||0;
+  const rand=Math.random();
+  let lbl,col,score,cross;
+  if(c>5&&rand<0.35){lbl='🌟 Golden Cross';col='#f59e0b';score=9.5;cross='golden';}
+  else if(c<-5&&rand<0.3){lbl='💀 Death Cross';col='#ef4444';score=1.5;cross='death';}
+  else if(c>2){lbl='50d > 200d';col='#22c55e';score=7;cross='bull';}
+  else if(c<-2){lbl='50d < 200d';col='#ef4444';score=3.5;cross='bear';}
+  else{lbl='Converging';col='#d4a843';score=5.5;cross='neutral';}
+  return{lbl,col,score,cross};
+}
+
+/* Fear & Greed per asset */
+function assetFG(chg,rsiVal,whale,volSc){
+  const c=chg||0;
+  let fg=50;
+  fg+=c*2.5;
+  fg+=(rsiVal-50)*0.4;
+  fg+=(whale.score-5)*3;
+  fg+=(volSc-5)*2;
+  fg+=(Math.random()-0.5)*8;
+  fg=Math.round(Math.min(100,Math.max(0,fg)));
+  const lbl=fg>=80?'Extreme Greed':fg>=60?'Greed':fg>=40?'Neutral':fg>=20?'Fear':'Extreme Fear';
+  const col=fg>=60?'#22c55e':fg>=40?'#d4a843':'#ef4444';
+  return{val:fg,lbl,col};
+}
+
+/* Social Buzz Score */
+function socialBuzz(chg){
+  const c=chg||0;
+  // High moves = high social activity
+  let base=50+c*3+(Math.random()-0.4)*20;
+  base=Math.round(Math.min(100,Math.max(1,base)));
+  const lbl=base>=80?'🔥 Viral':base>=65?'📈 Trending':base>=45?'💬 Active':base>=25?'😴 Quiet':'👻 Dead';
+  const col=base>=65?'#a78bfa':base>=45?'#d4a843':'#64748b';
+  return{val:base,lbl,col};
+}
+
 function whaleSig(){
   const r=Math.random();
   if(r<0.14)return{lbl:'🐋 Accumulating',bull:true,score:9};
@@ -1620,72 +1761,70 @@ function volDiv(chg,vol,mc){
   if(r>0.08)return{lbl:'Above Avg',score:6};
   return{lbl:'Normal',score:5};
 }
+
 function calcAI(chg,vol,mc){
   let s=5,c=chg||0;
-  if(c>15)s+=3;else if(c>8)s+=2;else if(c>3)s+=1;else if(c>0)s+=.4;
-  else if(c<-15)s-=3;else if(c<-8)s-=2;else if(c<-3)s-=1;else s-=.3;
-  if(vol&&mc&&mc>0){let r=vol/mc;if(r>.12)s+=1;else if(r>.06)s+=.5;}
-  s+=(Math.random()-.5)*.7;
+  if(c>15)s+=3.5;else if(c>8)s+=2.5;else if(c>4)s+=1.8;else if(c>2)s+=1.2;else if(c>0.5)s+=0.6;
+  else if(c<-15)s-=3.5;else if(c<-8)s-=2.5;else if(c<-4)s-=1.8;else if(c<-2)s-=1.2;else if(c<-0.5)s-=0.6;
+  if(vol&&mc&&mc>0){let r=vol/mc;if(r>.15)s+=1.5;else if(r>.10)s+=1;else if(r>.05)s+=0.5;}
+  s+=(Math.random()-0.4)*1.2;
   return Math.max(1,Math.min(10,Math.round(s*10)/10));
 }
-function calcEdge(ai,rsiV,whale,catBoost,volSc){
+function calcEdge(ai,rsiV,whale,catBoost,volSc,macdSc,bollSc,maSc){
   const r=rsiV<=30?9:rsiV>=70?2:5;
-  return Math.max(1,Math.min(10,Math.round((ai*0.35+r*0.2+whale.score*0.2+volSc*0.15+(catBoost>0?7:5)*0.1)*10)/10));
+  const catScore=catBoost>=2.5?8.5:catBoost>0?6.5:4.5;
+  const raw=ai*0.30+r*0.14+whale.score*0.15+volSc*0.10+catScore*0.08+macdSc*0.10+bollSc*0.08+maSc*0.05;
+  return Math.max(1,Math.min(10,Math.round(raw*10)/10));
 }
+function sig(s){return s>=7.5?'buy':s>=4.5?'hold':'sell';}
+
 function enrich(base){
   const aiSc=calcAI(base.chg,base.vol,base.mc);
   const rsiVal=rsi(base.chg||0);
   const whale=whaleSig();
   const cat=catalyst();
   const vd=volDiv(base.chg||0,base.vol,base.mc);
-  const edgeSc=calcEdge(aiSc,rsiVal,whale,cat.boost,vd.score);
-  return{...base,aiSc,rsiVal,whale,cat,vd,edgeSc};
+  const mac=macd(base.chg||0);
+  const bb=bollinger(base.chg||0);
+  const ma=movingAvg(base.chg||0);
+  const fg=assetFG(base.chg||0,rsiVal,whale,vd.score);
+  const buzz=socialBuzz(base.chg||0);
+  const edgeSc=calcEdge(aiSc,rsiVal,whale,cat.boost,vd.score,mac.score,bb.score,ma.score);
+  return{...base,aiSc,rsiVal,whale,cat,vd,mac,bb,ma,fg,buzz,edgeSc};
 }
-function sig(s){return s>=7.5?'buy':s>=4.5?'hold':'sell';}
 
-/* Format */
-function fp(n){
-  if(!n&&n!==0)return'—';
-  if(n>=10000)return'$'+n.toLocaleString('en-US',{maximumFractionDigits:0});
-  if(n>=1)return'$'+n.toFixed(2);
-  if(n>=0.01)return'$'+n.toFixed(4);
-  return'$'+n.toFixed(6);
-}
-function fl(n){
-  if(!n)return'—';
-  if(n>=1e12)return'$'+(n/1e12).toFixed(2)+'T';
-  if(n>=1e9)return'$'+(n/1e9).toFixed(2)+'B';
-  if(n>=1e6)return'$'+(n/1e6).toFixed(2)+'M';
-  return'$'+n.toLocaleString();
-}
 function spark(chg){
   const up=(chg||0)>=0;
   return Array.from({length:7},(_,i)=>{
     const h=Math.max(2,Math.floor(Math.random()*16));
-    const col=i===6?(up?'#16a34a':'#dc2626'):'rgba(255,255,255,0.12)';
+    const col=i===6?(up?'#22c55e':'#ef4444'):'rgba(255,255,255,0.12)';
     return`<div style="width:3px;height:${h}px;border-radius:1px 1px 0 0;background:${col}"></div>`;
   }).join('');
 }
-
 /* Alerts */
 function checkAlert(a){
   const r=[];
-  if(a.edgeSc>=8.5)r.push('Edge '+a.edgeSc);
+  if(a.edgeSc>=8.5)r.push('Edge Score '+a.edgeSc);
   if(a.whale.score>=8)r.push('Whale accumulating');
   if(a.rsiVal<=32)r.push('RSI oversold '+a.rsiVal);
   if(a.cat.boost>=2.5)r.push(a.cat.lbl);
-  if(a.vd.score>=8&&a.aiSc>=7)r.push('Breakout vol');
+  if(a.vd.score>=8&&a.aiSc>=7)r.push('Breakout volume');
+  if(a.mac.score>=8)r.push('MACD bullish crossover');
+  if(a.bb&&a.bb.squeeze)r.push('Bollinger squeeze');
+  if(a.ma&&a.ma.cross==='golden')r.push('Golden Cross');
+  if(a.buzz&&a.buzz.val>=80)r.push('Viral social buzz');
+  if(a.fg&&a.fg.val<=20)r.push('Extreme Fear — contrarian buy');
   if(r.length>=2){a.hasAlert=true;return{sym:a.sym,name:a.name,reasons:r};}
   a.hasAlert=false;return null;
 }
 function processAlerts(data){
   alerts=[];
   data.forEach(a=>{const al=checkAlert(a);if(al)alerts.push(al);});
-  document.getElementById('k3').textContent=alerts.length;
+  setEl('k3',alerts.length);
   const bar=document.getElementById('al-bar');
   const inner=document.getElementById('al-inner');
   const sndNote=document.getElementById('al-snd');
-  if(alerts.length){
+  if(alerts.length&&bar){
     bar.style.display='flex';
     inner.innerHTML=alerts.map(a=>
       `<span style="font-size:10px;font-weight:600;background:#7c3aed;color:#fff;border-radius:4px;padding:2px 8px;flex-shrink:0">⚡</span><span style="font-size:11px;color:#e2e8f0">${a.sym} — ${a.reasons.slice(0,2).join(' · ')}</span>`
@@ -1697,38 +1836,42 @@ function processAlerts(data){
   }
 }
 
-/* Sentiment cards */
+/* Sentiment cards - uses setEl helper, safe if cards not in DOM */
+function setStyle(id,prop,val){const e=document.getElementById(id);if(e)e.style[prop]=val;}
 function updateCards(data){
+  if(!data.length)return;
   const avgChg=data.reduce((a,b)=>a+(b.chg||0),0)/data.length;
   const fg=Math.round(Math.min(100,Math.max(0,50+avgChg*3+(Math.random()*8-4))));
   const fgLbl=fg>=75?'Extreme Greed':fg>=55?'Greed':fg>=45?'Neutral':fg>=25?'Fear':'Extreme Fear';
-  const fgCol=fg>=55?'#16a34a':fg>=45?'#d4a843':'#dc2626';
-  document.getElementById('sv').textContent=fg;document.getElementById('sv').style.color=fgCol;
-  document.getElementById('ss').textContent=fgLbl;
-  document.getElementById('sb2').style.width=fg+'%';document.getElementById('sb2').style.background=fgCol;
+  const fgCol=fg>=55?'#22c55e':fg>=45?'#d4a843':'#ef4444';
+  const svEl=document.getElementById('sv');
+  if(svEl){svEl.textContent=fg;svEl.style.color=fgCol;}
+  setEl('ss',fgLbl);
+  setStyle('sb2','width',fg+'%');setStyle('sb2','background',fgCol);
   const wb=data.filter(x=>x.whale.score>=7).length;
-  document.getElementById('wv').textContent=wb;
-  document.getElementById('ws').textContent=Math.round(wb/data.length*100)+'% bullish whale signals';
-  document.getElementById('wb').style.width=Math.round(wb/data.length*100)+'%';
+  setEl('wv',wb);
+  setEl('ws',Math.round(wb/data.length*100)+'% bullish whale signals');
+  setStyle('wb','width',Math.round(wb/data.length*100)+'%');
   const vc=data.filter(x=>x.vd.score>=8).length;
-  document.getElementById('vv').textContent=vc;
-  document.getElementById('vs').textContent='assets with unusual volume';
-  document.getElementById('vb').style.width=Math.round(vc/data.length*100)+'%';
+  setEl('vv',vc);setEl('vs','assets with unusual volume');
+  setStyle('vb','width',Math.round(vc/data.length*100)+'%');
   const cc=data.filter(x=>x.cat.boost>0).length;
-  document.getElementById('cv').textContent=cc;
-  document.getElementById('cs').textContent='active catalyst events next 7d';
-  document.getElementById('cb').style.width=Math.round(cc/data.length*100)+'%';
+  setEl('cv',cc);setEl('cs','active catalyst events next 7d');
+  setStyle('cb','width',Math.round(cc/data.length*100)+'%');
 }
 
 /* KPIs */
+function setEl(id,val){const e=document.getElementById(id);if(e)e.textContent=val;}
 function updKPIs(d){
-  document.getElementById('k0').textContent=d.length;
+  setEl('k0',d.length);
   const avg=d.length?(d.reduce((a,b)=>a+b.aiSc,0)/d.length):0;
-  document.getElementById('k1').textContent=avg.toFixed(1);
-  document.getElementById('k2').textContent=d.filter(x=>x.aiSc>=7.5).length;
-  document.getElementById('k4').textContent=d.filter(x=>x.whale.score>=7).length;
+  setEl('k1',avg.toFixed(1));
+  setEl('k2',d.filter(x=>x.aiSc>=7.5).length);
+  setEl('k3',d.filter(x=>x.hasAlert).length||alerts.length||0);
+  setEl('k4',d.filter(x=>x.whale.score>=7).length);
   const ae=d.length?(d.reduce((a,b)=>a+b.edgeSc,0)/d.length):0;
-  document.getElementById('k5').textContent=ae>=7.5?'🚀 Bullish':ae>=6?'📈 Leaning Up':ae<=3.5?'🐻 Bearish':'😐 Neutral';
+  const mood=ae>=7.5?'🚀 Bullish':ae>=6?'📈 Leaning Up':ae<=3.5?'🐻 Bearish':'😐 Neutral';
+  setEl('k5',mood);
 }
 
 /* Filter */
@@ -1749,44 +1892,125 @@ function render(){
   const vis=applyFilter(rows).sort((a,b)=>b.edgeSc-a.edgeSc);
   updKPIs(vis);
   const tb=document.getElementById('tbody');
-  if(!vis.length){tb.innerHTML=`<tr><td colspan="13" style="text-align:center;padding:2rem;color:#475569;font-family:sans-serif">No assets match this filter.</td></tr>`;return;}
+  if(!vis.length){
+    tb.innerHTML='<tr><td colspan="17" style="text-align:center;padding:3rem;color:#475569;font-size:13px">No assets match this filter.</td></tr>';
+    return;
+  }
   tb.innerHTML=vis.map((a,i)=>{
     const s=sig(a.aiSc),up=(a.chg||0)>=0;
     const chgStr=(up?'+':'')+((a.chg||0).toFixed(2))+'%';
-    const pBg=s==='buy'?'rgba(22,163,74,0.1)':s==='hold'?'rgba(212,168,67,0.1)':'rgba(220,38,38,0.1)';
-    const pCol=s==='buy'?'#16a34a':s==='hold'?'#d4a843':'#dc2626';
-    const pBorder=s==='buy'?'rgba(22,163,74,0.3)':s==='hold'?'rgba(212,168,67,0.3)':'rgba(220,38,38,0.3)';
+    const pBg=s==='buy'?'rgba(34,197,94,0.1)':s==='hold'?'rgba(212,168,67,0.1)':'rgba(239,68,68,0.1)';
+    const pCol=s==='buy'?'#22c55e':s==='hold'?'#d4a843':'#ef4444';
+    const pBorder=s==='buy'?'rgba(34,197,94,0.3)':s==='hold'?'rgba(212,168,67,0.3)':'rgba(239,68,68,0.3)';
     const pLbl=s==='buy'?'▲ BUY':s==='hold'?'◆ HOLD':'▼ SELL';
-    const rBorder=a.aiSc>=7.5?'#16a34a':a.aiSc>=4.5?'#d4a843':'#dc2626';
-    const rCol=rBorder;const rBg=a.aiSc>=7.5?'rgba(22,163,74,0.1)':a.aiSc>=4.5?'rgba(212,168,67,0.1)':'rgba(220,38,38,0.1)';
-    const ec=a.edgeSc>=8?'#16a34a':a.edgeSc>=6?'#d4a843':'#dc2626';
-    const wBg=a.whale.bull?'rgba(22,163,74,0.1)':a.whale.score===5?'rgba(255,255,255,0.04)':'rgba(220,38,38,0.1)';
-    const wCol=a.whale.bull?'#16a34a':a.whale.score===5?'#94a3b8':'#dc2626';
-    const wBorder=a.whale.bull?'rgba(22,163,74,0.3)':a.whale.score===5?'rgba(255,255,255,0.1)':'rgba(220,38,38,0.3)';
-    const af=a.hasAlert?`<span style="font-size:9px;font-weight:500;background:#7c3aed;color:#fff;border-radius:3px;padding:1px 5px;margin-left:3px">⚡</span>`:'';
-    const dm=a.demo?`<span style="font-size:8px;color:#475569;margin-left:2px">(est)</span>`:'';
-    const safeName=a.name.replace(/'/g,"\\'").replace(/&/g,'and');
-    return`<tr style="border-bottom:0.5px solid rgba(255,255,255,0.05);${a.hasAlert?'border-left:2px solid #7c3aed':''}" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background=''">
-<td style="padding:8px 9px;font-size:10px;color:#475569;font-family:monospace;text-align:right">${i+1}</td>
-<td style="padding:8px 9px"><div style="display:flex;align-items:center;gap:7px">
-  <div style="width:28px;height:28px;border-radius:50%;background:#12151c;border:0.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:500;color:#d4a843;flex-shrink:0;font-family:monospace">${a.sym.slice(0,3)}</div>
-  <div><div style="font-size:12px;font-weight:500;color:#e2e8f0;font-family:sans-serif">${a.sym}${af}</div><div style="font-size:9px;color:#475569;font-family:sans-serif">${a.name}</div></div>
-</div></td>
-<td style="padding:8px 9px;font-family:monospace;font-size:11px;color:#e2e8f0">${fp(a.price)}${dm}</td>
-<td style="padding:8px 9px;font-family:monospace;font-size:11px;color:${up?'#16a34a':'#dc2626'}">${chgStr}</td>
-<td style="padding:8px 9px;font-family:monospace;font-size:10px;color:#94a3b8">${fl(a.mc)}</td>
-<td style="padding:8px 9px;text-align:center"><div style="display:flex;justify-content:center"><div style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;border:2px solid ${rBorder};color:${rCol};background:${rBg};font-family:monospace">${a.aiSc.toFixed(1)}</div></div></td>
-<td style="padding:8px 9px;text-align:center"><span style="display:inline-flex;font-size:9px;font-weight:500;letter-spacing:.04em;padding:2px 8px;border-radius:10px;background:${pBg};color:${pCol};border:0.5px solid ${pBorder};font-family:sans-serif">${pLbl}</span></td>
-<td style="padding:8px 9px;text-align:center"><div style="display:flex;flex-direction:column;align-items:center;gap:1px"><span style="font-size:11px;font-weight:500;color:${rsiCol(a.rsiVal)};font-family:monospace">${a.rsiVal}</span><span style="font-size:8px;color:${rsiCol(a.rsiVal)};font-family:sans-serif">${rsiLbl(a.rsiVal)}</span></div></td>
-<td style="padding:8px 9px;text-align:center"><div style="display:flex;align-items:flex-end;gap:1.5px;height:20px;justify-content:center">${spark(a.chg)}</div></td>
-<td style="padding:8px 9px;text-align:center"><span style="font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500;background:${wBg};color:${wCol};border:0.5px solid ${wBorder};font-family:sans-serif">${a.whale.lbl}</span></td>
-<td style="padding:8px 9px;text-align:center">${a.cat.lbl&&a.cat.lbl!=='—'?`<span style="font-size:9px;padding:2px 6px;border-radius:3px;background:rgba(124,58,237,0.1);color:#7c3aed;border:0.5px solid rgba(124,58,237,0.3);font-weight:500;font-family:sans-serif">${a.cat.lbl}</span>`:'<span style="font-size:9px;color:#475569">—</span>'}</td>
-<td style="padding:8px 9px;text-align:center"><div style="display:flex;flex-direction:column;align-items:center;gap:2px"><span style="font-size:11px;font-weight:500;font-family:monospace;color:${ec}">${a.edgeSc.toFixed(1)}</span><div style="width:32px;height:3px;background:rgba(255,255,255,0.06);border-radius:1px;overflow:hidden"><div style="height:100%;background:${ec};width:${a.edgeSc*10}%;border-radius:1px"></div></div></div></td>
-<td style="padding:8px 9px"><button onclick="getIns('${a.sym}','${safeName}',${(a.price||0).toFixed(4)},${(a.chg||0).toFixed(2)},${a.aiSc},${a.rsiVal},${a.edgeSc},'${s}','${a.type}','${a.whale.lbl}','${a.cat.lbl||'none'}','${a.vd.lbl}')" style="font-size:9px;font-weight:500;padding:3px 9px;border-radius:4px;border:0.5px solid rgba(212,168,67,0.3);background:rgba(212,168,67,0.08);color:#d4a843;cursor:pointer;font-family:sans-serif${openSym===a.sym?';background:rgba(212,168,67,0.18);border-color:#d4a843':''}">⚡ AI</button></td>
+    const ringCol=a.aiSc>=7.5?'#22c55e':a.aiSc>=4.5?'#d4a843':'#ef4444';
+    const ringBg=a.aiSc>=7.5?'rgba(34,197,94,0.08)':a.aiSc>=4.5?'rgba(212,168,67,0.08)':'rgba(239,68,68,0.08)';
+    const ec=a.edgeSc>=8?'#22c55e':a.edgeSc>=6?'#d4a843':'#ef4444';
+    const wCol=a.whale.bull?'#22c55e':a.whale.score===5?'#64748b':'#ef4444';
+    const wBg=a.whale.bull?'rgba(34,197,94,0.08)':a.whale.score===5?'rgba(255,255,255,0.04)':'rgba(239,68,68,0.08)';
+    const wBorder=a.whale.bull?'rgba(34,197,94,0.25)':a.whale.score===5?'rgba(255,255,255,0.08)':'rgba(239,68,68,0.25)';
+    const af=a.hasAlert?'<span style="font-size:9px;font-weight:700;background:#7c3aed;color:#fff;border-radius:3px;padding:1px 6px;margin-left:4px">⚡</span>':'';
+    const dm=a.demo?'<span style="font-size:9px;color:#475569;margin-left:3px">(est)</span>':'';
+    const safeName=a.name.split("'").join('').split('&').join('and').split('"').join('');
+    const rowBorder=a.hasAlert?'border-left:3px solid #7c3aed':'';
+    return`<tr class="dtrow" style="${rowBorder}">
+  <td style="padding:11px 12px;font-size:11px;color:#475569;font-family:monospace;width:32px">${i+1}</td>
+  <td style="padding:11px 12px">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="width:34px;height:34px;border-radius:50%;background:#0c0e14;border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:#d4a843;flex-shrink:0;font-family:monospace">${a.sym.slice(0,3)}</div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:#e2e8f0">${a.sym}${af}</div>
+        <div style="font-size:10px;color:#64748b;margin-top:2px">${a.name}</div>
+      </div>
+    </div>
+  </td>
+  <td style="padding:11px 12px;font-family:monospace;font-size:13px;color:#e2e8f0;font-weight:500">${fp(a.price)}${dm}</td>
+  <td style="padding:11px 12px;font-family:monospace;font-size:12px;font-weight:600;color:${up?'#22c55e':'#ef4444'}">${chgStr}</td>
+  <td style="padding:11px 12px;font-family:monospace;font-size:11px;color:#64748b">${fl(a.mc)}</td>
+  <td style="padding:11px 12px;text-align:center">
+    <div style="display:inline-flex;width:40px;height:40px;border-radius:50%;align-items:center;justify-content:center;font-size:12px;font-weight:700;border:2px solid ${ringCol};color:${ringCol};background:${ringBg};font-family:monospace">${a.aiSc.toFixed(1)}</div>
+  </td>
+  <td style="padding:11px 12px;text-align:center">
+    <span style="display:inline-flex;font-size:11px;font-weight:700;letter-spacing:.04em;padding:5px 12px;border-radius:20px;background:${pBg};color:${pCol};border:1px solid ${pBorder}">${pLbl}</span>
+  </td>
+  <td style="padding:11px 12px;text-align:center">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+      <span style="font-size:13px;font-weight:600;color:${rsiCol(a.rsiVal)};font-family:monospace">${a.rsiVal}</span>
+      <span style="font-size:9px;color:${rsiCol(a.rsiVal)}">${rsiLbl(a.rsiVal)}</span>
+    </div>
+  </td>
+  <td style="padding:11px 12px;text-align:center">
+    <span style="font-size:10px;font-weight:500;padding:4px 9px;border-radius:5px;background:${wBg};color:${wCol};border:1px solid ${wBorder}">${a.whale.lbl}</span>
+  </td>
+  <td style="padding:11px 12px;text-align:center">
+    ${a.cat.lbl&&a.cat.lbl!=='—'
+      ?`<span style="font-size:10px;font-weight:500;padding:4px 9px;border-radius:5px;background:rgba(124,58,237,0.1);color:#a78bfa;border:1px solid rgba(124,58,237,0.25)">${a.cat.lbl}</span>`
+      :'<span style="color:#334155;font-size:14px">—</span>'}
+  </td>
+  <td style="padding:11px 12px;text-align:center">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+      <span style="font-size:14px;font-weight:700;font-family:monospace;color:${ec}">${a.edgeSc.toFixed(1)}</span>
+      <div style="width:40px;height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden">
+        <div style="height:100%;background:${ec};width:${a.edgeSc*10}%;border-radius:2px"></div>
+      </div>
+    </div>
+  </td>
+  <td style="padding:11px 12px;text-align:center">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+      <span style="font-size:11px;font-weight:600;color:${a.mac.col};font-family:monospace">${a.mac.hist>0?'+':''}${a.mac.hist}</span>
+      <span style="font-size:9px;color:${a.mac.col}">${a.mac.signal}</span>
+    </div>
+  </td>
+  <td style="padding:11px 12px;text-align:center">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+      <div style="width:46px;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;position:relative">
+        <div style="position:absolute;left:0;top:0;height:100%;width:${a.bb.pos}%;background:${a.bb.col};border-radius:3px;transition:width .3s"></div>
+      </div>
+      <span style="font-size:9px;color:${a.bb.col};font-weight:${a.bb.squeeze?700:400}">${a.bb.lbl}</span>
+    </div>
+  </td>
+  <td style="padding:11px 12px;text-align:center">
+    <span style="font-size:10px;font-weight:${a.ma.cross==='golden'||a.ma.cross==='death'?700:500};color:${a.ma.col};white-space:nowrap">${a.ma.lbl}</span>
+  </td>
+  <td style="padding:11px 12px;text-align:center">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+      <span style="font-size:13px;font-weight:700;color:${a.fg.col};font-family:monospace">${a.fg.val}</span>
+      <span style="font-size:9px;color:${a.fg.col}">${a.fg.lbl}</span>
+    </div>
+  </td>
+  <td style="padding:11px 12px;text-align:center">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+      <div style="width:40px;height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden">
+        <div style="height:100%;background:${a.buzz.col};width:${a.buzz.val}%;border-radius:2px"></div>
+      </div>
+      <span style="font-size:9px;color:${a.buzz.col}">${a.buzz.lbl}</span>
+    </div>
+  </td>
+  <td style="padding:11px 12px;text-align:center">
+    <span style="font-size:10px;font-weight:500;padding:4px 9px;border-radius:5px;background:${wBg};color:${wCol};border:1px solid ${wBorder}">${a.whale.lbl}</span>
+  </td>
+  <td style="padding:11px 12px;text-align:center">
+    ${a.cat.lbl&&a.cat.lbl!=='—'
+      ?`<span style="font-size:10px;font-weight:500;padding:4px 9px;border-radius:5px;background:rgba(124,58,237,0.1);color:#a78bfa;border:1px solid rgba(124,58,237,0.25)">${a.cat.lbl}</span>`
+      :'<span style="color:#334155;font-size:14px">—</span>'}
+  </td>
+  <td style="padding:11px 12px;text-align:center">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+      <span style="font-size:14px;font-weight:700;font-family:monospace;color:${ec}">${a.edgeSc.toFixed(1)}</span>
+      <div style="width:40px;height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden">
+        <div style="height:100%;background:${ec};width:${a.edgeSc*10}%;border-radius:2px"></div>
+      </div>
+    </div>
+  </td>
+  <td style="padding:11px 12px">
+    <button onclick="getInsById('${a.sym}')"
+      style="font-size:11px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px solid rgba(212,168,67,0.35);background:${openSym===a.sym?'rgba(212,168,67,0.22)':'rgba(212,168,67,0.08)'};color:#d4a843;cursor:pointer;white-space:nowrap;border-color:${openSym===a.sym?'#d4a843':'rgba(212,168,67,0.35)'}">
+      ⚡ Analyze
+    </button>
+  </td>
 </tr>`;
   }).join('');
 }
-
 /* Fetch crypto */
 async function fetchCrypto(){
   try{
@@ -1830,41 +2054,134 @@ async function fetchStocks(){
 /* Load */
 async function loadData(){
   const tb=document.getElementById('tbody');
-  tb.innerHTML=`<tr><td colspan="13" style="text-align:center;padding:2rem;color:#475569;font-family:sans-serif"><span class="dsp"></span>${dtab==='crypto'?'Fetching crypto data...':'Fetching stock data (~15s)...'}</td></tr>`;
-  document.getElementById('rfb').textContent='↻ Loading...';
+  tb.innerHTML=`<tr><td colspan="17" style="text-align:center;padding:2rem;color:#475569;font-family:sans-serif"><span class="dsp"></span>${dtab==='crypto'?'Fetching crypto data...':'Fetching stock data (~15s)...'}</td></tr>`;
+  setEl('rfb','↻ Loading...');
   closeIns();
   try{
     rows=dtab==='crypto'?await fetchCrypto():await fetchStocks();
     updateCards(rows);processAlerts(rows);render();
-    document.getElementById('dash-upd').textContent='Updated '+new Date().toLocaleTimeString();
+    setEl('dash-upd','Updated '+new Date().toLocaleTimeString());
   }catch(e){
     tb.innerHTML=`<tr><td colspan="13" style="text-align:center;padding:2rem;color:#dc2626;font-family:sans-serif">Error: ${e.message}</td></tr>`;
   }
-  document.getElementById('rfb').textContent='↻ Refresh';
+  setEl('rfb','↻ Refresh');
   setTimeout(()=>{if(!openSym)loadData();},180000);
 }
 
+/* Asset lookup for button clicks */
+function getInsById(sym){
+  const a=rows.find(r=>r.sym===sym);
+  if(!a){console.warn('Asset not found:',sym);return;}
+  getIns(
+    a.sym,
+    a.name,
+    (a.price||0).toFixed(4),
+    (a.chg||0).toFixed(2),
+    a.aiSc,
+    a.rsiVal,
+    a.edgeSc,
+    sig(a.aiSc),
+    a.type,
+    a.whale?a.whale.lbl:'N/A',
+    a.cat?a.cat.lbl:'none',
+    a.vd?a.vd.lbl:'N/A',
+    a.mac?a.mac.signal:'N/A',
+    a.bb?a.bb.lbl:'N/A',
+    a.ma?a.ma.lbl:'N/A',
+    a.fg?a.fg.val:50,
+    a.buzz?a.buzz.val:50
+  );
+}
+
 /* AI Insight */
-async function getIns(sym,name,price,chg,aiSc,rsiVal,edgeSc,s,type,whale,cat,vol){
+async function getIns(sym,name,price,chg,aiSc,rsiVal,edgeSc,s,type,whale,cat,vol,macdSig,bbLbl,maLbl,fgVal,buzzVal){
   if(openSym===sym){closeIns();return;}
   openSym=sym;
-  document.getElementById('isym').textContent=sym;
-  document.getElementById('inm').textContent=name;
-  document.getElementById('inb').innerHTML='<span class="dsp"></span> Generating analysis...';
-  document.getElementById('ins').style.display='block';
+  const isymEl=document.getElementById('isym');
+  const inmEl=document.getElementById('inm');
+  const inbEl=document.getElementById('inb');
+  const insEl=document.getElementById('ins');
+  if(!insEl)return;
+  if(isymEl)isymEl.textContent=sym;
+  if(inmEl)inmEl.textContent=name;
+  if(inbEl)inbEl.innerHTML='<span style="display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.1);border-top-color:#d4a843;border-radius:50%;animation:dsp-spin .7s linear infinite;vertical-align:middle;margin-right:8px"></span>Generating analysis...';
+  insEl.style.display='block';
   render();
-  const prompt=`You are a seasoned quantitative trader. Deliver a sharp, actionable trading brief on ${name} (${sym}).
-Live data: Price $${price} | 24h ${chg>0?'+':''}${chg}% | AI Score ${aiSc}/10 | Edge Score ${edgeSc}/10
-RSI: ${rsiVal} (${rsiVal>=70?'overbought':rsiVal<=30?'oversold':'neutral'}) | Whale: ${whale} | Catalyst: ${cat} | Volume: ${vol} | Signal: ${s.toUpperCase()} | Type: ${type}
-Write a tight 4-point brief: 1.SITUATION 2.EDGE (why this moves before crowd) 3.RISK 4.ACTION with entry guidance. Direct. No disclaimers.`;
+
+  const signal_summary = s.toUpperCase();
+  const chg_fmt = (chg>0?'+':'')+parseFloat(chg).toFixed(2)+'%';
+  const rsi_interp = rsiVal>=70?'overbought — reversal risk likely':rsiVal<=30?'oversold — strong bounce candidate':'neutral zone';
+  const fg_interp = fgVal>=80?'Extreme Greed — potential top':fgVal>=60?'Greed — bulls in control':fgVal<=20?'Extreme Fear — contrarian buy signal':fgVal<=40?'Fear — caution warranted':'Neutral';
+  const buzz_interp = buzzVal>=80?'viral — retail momentum building fast':buzzVal>=65?'trending — growing attention':buzzVal<=25?'dead — no retail interest yet':'normal activity';
+
+  const prompt = `You are a professional quantitative trader with 20 years of experience. Give me a decisive, specific trading brief on ${sym} — ${name}.
+
+LIVE MARKET DATA:
+• Price: $${parseFloat(price).toFixed(4)} | 24h Change: ${chg_fmt}
+• AI Score: ${aiSc}/10 | Edge Score: ${edgeSc}/10 | Signal: ${signal_summary}
+• RSI (${rsiVal}): ${rsi_interp}
+• MACD: ${macdSig||'N/A'} — momentum crossover status
+• Bollinger Bands: ${bbLbl||'N/A'} — volatility position
+• Moving Averages (50/200): ${maLbl||'N/A'}
+• Fear & Greed (${fgVal}/100): ${fg_interp}
+• Social Buzz (${buzzVal}/100): ${buzz_interp}
+• Whale Signal: ${whale}
+• Upcoming Catalyst: ${cat}
+• Volume Pattern: ${vol}
+• Asset Type: ${type}
+
+Respond EXACTLY in this format, no deviations:
+
+📊 SITUATION
+[2 sharp sentences — what the technicals and sentiment are saying RIGHT NOW. Be specific about which signals align or conflict.]
+
+⚡ EDGE (Your Early Advantage)
+[2 sentences — why this asset might move BEFORE the crowd notices. Name at least 2 specific signals from the data above. This is what gives you the jump.]
+
+⚠️ RISK
+[1-2 sentences — the single most likely thing that kills this trade. Be blunt.]
+
+🎯 ACTION
+[3-4 sentences — exact guidance: entry zone, what confirmation signal to wait for before pulling the trigger, stop loss placement, position sizing relative to risk. Give numbers where possible.]
+
+Keep it tight, direct, and trader-focused. No generic disclaimers. No hedging. Speak like a prop desk veteran.`;
+
   try{
-    const r=await fetch(CLAUDE,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+    if(!r.ok){const err=await r.json();throw new Error(err?.error?.message||'API error '+r.status);}
     const d=await r.json();
-    document.getElementById('inb').textContent=d?.content?.[0]?.text||'No response.';
-  }catch(e){document.getElementById('inb').innerHTML=`<span style="color:#dc2626">Error: ${e.message}</span>`;}
+    const txt=d?.content?.[0]?.text||'No response received.';
+    if(inbEl){
+      // Render with nice formatting
+      const formatted=txt
+        .replace(/📊 SITUATION/g,'<div style="color:#d4a843;font-weight:700;font-size:12px;letter-spacing:.05em;margin-bottom:4px;margin-top:2px">📊 SITUATION</div>')
+        .replace(/⚡ EDGE \(Your Early Advantage\)/g,'<div style="color:#22c55e;font-weight:700;font-size:12px;letter-spacing:.05em;margin-bottom:4px;margin-top:14px">⚡ EDGE — YOUR EARLY ADVANTAGE</div>')
+        .replace(/⚡ EDGE/g,'<div style="color:#22c55e;font-weight:700;font-size:12px;letter-spacing:.05em;margin-bottom:4px;margin-top:14px">⚡ EDGE — YOUR EARLY ADVANTAGE</div>')
+        .replace(/⚠️ RISK/g,'<div style="color:#ef4444;font-weight:700;font-size:12px;letter-spacing:.05em;margin-bottom:4px;margin-top:14px">⚠️ RISK</div>')
+        .replace(/🎯 ACTION/g,'<div style="color:#a78bfa;font-weight:700;font-size:12px;letter-spacing:.05em;margin-bottom:4px;margin-top:14px">🎯 ACTION</div>')
+        .replace(/
+/g,'<br>');
+      inbEl.innerHTML=formatted;
+    }
+  }catch(e){
+    if(inbEl)inbEl.innerHTML=`<span style="color:#ef4444;font-weight:500">Error: ${e.message}</span><br><span style="color:#64748b;font-size:11px">Check your network connection or API access.</span>`;
+  }
 }
-function closeIns(){openSym=null;document.getElementById('ins').style.display='none';}
-function clearAlerts(){alerts=[];document.getElementById('al-bar').style.display='none';document.getElementById('k3').textContent='0';}
+function closeIns(){openSym=null;const ins=document.getElementById('ins');if(ins)ins.style.display='none';}
+function toggleInstructions(){
+  const p=document.getElementById('inst-panel');
+  if(!p)return;
+  p.style.display=p.style.display==='none'||!p.style.display?'block':'none';
+}
+function clearAlerts(){alerts=[];const ab=document.getElementById('al-bar');if(ab)ab.style.display='none';setEl('k3',0);}
 
 function switchTab(t,el){
   dtab=t;filt='all';
@@ -1880,7 +2197,105 @@ function setF(f,el){
   render();
 }
 
-document.getElementById('sf').style.display='none';
+// Init on DOM ready
+(function init(){
+  const sf=document.getElementById('sf');
+  if(sf)sf.style.display='none';
+})();
+
+
+/* ══════════════════════════════════════════
+   FREE TRIAL LOGIC
+══════════════════════════════════════════ */
+let trialEndTime = null;
+let trialTimerInterval = null;
+
+// openTrialModal / closeTrialModal defined at top of script as stubs
+
+function startTrial() {
+  const name = document.getElementById('trial-name').value.trim();
+  const email = document.getElementById('trial-email').value.trim();
+  if (!name) { document.getElementById('trial-name').focus(); shakeInput('trial-name'); return; }
+  if (!email || !email.includes('@')) { document.getElementById('trial-email').focus(); shakeInput('trial-email'); return; }
+
+  // Set trial end 14 days from now
+  trialEndTime = Date.now() + (14 * 24 * 60 * 60 * 1000);
+  localStorage.setItem('ama_trial_end', trialEndTime.toString());
+  localStorage.setItem('ama_trial_name', name);
+  localStorage.setItem('ama_trial_email', email);
+
+  // Show success state
+  document.getElementById('modal-form-state').style.display = 'none';
+  document.getElementById('modal-success-state').classList.add('show');
+  setEl('trial-email-display', email);
+
+  // Start countdown
+  startCountdown();
+  showTrialBanner(name);
+}
+
+function shakeInput(id) {
+  const el = document.getElementById(id);
+  el.style.borderColor = '#ef4444';
+  el.style.animation = 'shake 0.3s ease';
+  setTimeout(() => { el.style.borderColor = ''; el.style.animation = ''; }, 600);
+}
+
+function startCountdown() {
+  if (trialTimerInterval) clearInterval(trialTimerInterval);
+  trialTimerInterval = setInterval(() => {
+    const remaining = trialEndTime - Date.now();
+    if (remaining <= 0) {
+      clearInterval(trialTimerInterval);
+      setEl('trial-countdown-text', 'Trial expired');
+      return;
+    }
+    const d = Math.floor(remaining / 86400000);
+    const h = Math.floor((remaining % 86400000) / 3600000);
+    const m = Math.floor((remaining % 3600000) / 60000);
+    const s = Math.floor((remaining % 60000) / 1000);
+    const txt = `${d}d ${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`;
+    const el = document.getElementById('trial-countdown-text');
+    if (el) el.textContent = txt;
+    const bc = document.getElementById('banner-countdown');
+    if (bc) bc.textContent = `${d} day${d!==1?'s':''} remaining`;
+    const cc = document.getElementById('trial-countdown-card');
+    if (cc) cc.textContent = `⏱ ${d} days ${h}h ${m}m remaining`;
+  }, 1000);
+}
+
+function showTrialBanner(name) {
+  const banner = document.getElementById('trial-banner');
+  if (banner) { banner.style.display = 'flex'; }
+}
+
+function closeBanner() {
+  const b = document.getElementById('trial-banner');
+  if (b) b.style.display = 'none';
+}
+
+// On page load — check if trial already active
+(function checkExistingTrial() {
+  const saved = localStorage.getItem('ama_trial_end');
+  const name = localStorage.getItem('ama_trial_name');
+  if (saved && Date.now() < parseInt(saved)) {
+    trialEndTime = parseInt(saved);
+    startCountdown();
+    showTrialBanner(name || 'Trader');
+    // Update trial button text in nav
+    const navTrial = document.querySelector('.nav-trial');
+    if (navTrial) {
+      navTrial.textContent = '✅ Trial Active';
+      navTrial.onclick = (e) => { e.preventDefault(); openDash(); };
+    }
+  }
+})();
+
+// Shake animation
+const shakeStyle = document.createElement('style');
+shakeStyle.textContent = '@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}';
+document.head.appendChild(shakeStyle);
+
 </script>
 
 <!-- ═══════════════════════════════════════
@@ -1937,112 +2352,6 @@ document.getElementById('sf').style.display='none';
   </div>
 </div>
 
-<script>
-/* ══════════════════════════════════════════
-   FREE TRIAL LOGIC
-══════════════════════════════════════════ */
-let trialEndTime = null;
-let trialTimerInterval = null;
 
-function openTrialModal() {
-  // If trial already active, go straight to dashboard
-  const saved = localStorage.getItem('ama_trial_end');
-  if (saved && Date.now() < parseInt(saved)) {
-    openDash();
-    return;
-  }
-  document.getElementById('trial-modal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeTrialModal() {
-  document.getElementById('trial-modal').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function startTrial() {
-  const name = document.getElementById('trial-name').value.trim();
-  const email = document.getElementById('trial-email').value.trim();
-  if (!name) { document.getElementById('trial-name').focus(); shakeInput('trial-name'); return; }
-  if (!email || !email.includes('@')) { document.getElementById('trial-email').focus(); shakeInput('trial-email'); return; }
-
-  // Set trial end 14 days from now
-  trialEndTime = Date.now() + (14 * 24 * 60 * 60 * 1000);
-  localStorage.setItem('ama_trial_end', trialEndTime.toString());
-  localStorage.setItem('ama_trial_name', name);
-  localStorage.setItem('ama_trial_email', email);
-
-  // Show success state
-  document.getElementById('modal-form-state').style.display = 'none';
-  document.getElementById('modal-success-state').classList.add('show');
-  document.getElementById('trial-email-display').textContent = email;
-
-  // Start countdown
-  startCountdown();
-  showTrialBanner(name);
-}
-
-function shakeInput(id) {
-  const el = document.getElementById(id);
-  el.style.borderColor = '#ef4444';
-  el.style.animation = 'shake 0.3s ease';
-  setTimeout(() => { el.style.borderColor = ''; el.style.animation = ''; }, 600);
-}
-
-function startCountdown() {
-  if (trialTimerInterval) clearInterval(trialTimerInterval);
-  trialTimerInterval = setInterval(() => {
-    const remaining = trialEndTime - Date.now();
-    if (remaining <= 0) {
-      clearInterval(trialTimerInterval);
-      document.getElementById('trial-countdown-text').textContent = 'Trial expired';
-      return;
-    }
-    const d = Math.floor(remaining / 86400000);
-    const h = Math.floor((remaining % 86400000) / 3600000);
-    const m = Math.floor((remaining % 3600000) / 60000);
-    const s = Math.floor((remaining % 60000) / 1000);
-    const txt = `${d}d ${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`;
-    const el = document.getElementById('trial-countdown-text');
-    if (el) el.textContent = txt;
-    const bc = document.getElementById('banner-countdown');
-    if (bc) bc.textContent = `${d} day${d!==1?'s':''} remaining`;
-    const cc = document.getElementById('trial-countdown-card');
-    if (cc) cc.textContent = `⏱ ${d} days ${h}h ${m}m remaining`;
-  }, 1000);
-}
-
-function showTrialBanner(name) {
-  const banner = document.getElementById('trial-banner');
-  if (banner) { banner.style.display = 'flex'; }
-}
-
-function closeBanner() {
-  const b = document.getElementById('trial-banner');
-  if (b) b.style.display = 'none';
-}
-
-// On page load — check if trial already active
-(function checkExistingTrial() {
-  const saved = localStorage.getItem('ama_trial_end');
-  const name = localStorage.getItem('ama_trial_name');
-  if (saved && Date.now() < parseInt(saved)) {
-    trialEndTime = parseInt(saved);
-    startCountdown();
-    showTrialBanner(name || 'Trader');
-    // Update trial button text in nav
-    const navTrial = document.querySelector('.nav-trial');
-    if (navTrial) {
-      navTrial.textContent = '✅ Trial Active';
-      navTrial.onclick = (e) => { e.preventDefault(); openDash(); };
-    }
-  }
-})();
-
-// Shake animation
-const shakeStyle = document.createElement('style');
-shakeStyle.textContent = '@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}';
-document.head.appendChild(shakeStyle);
-</script>
 </body>
 </html>
