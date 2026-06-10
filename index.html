@@ -931,6 +931,122 @@ footer {
 .pricing-grid { grid-template-columns: repeat(4,1fr); }
 @media (max-width: 1100px) { .pricing-grid { grid-template-columns: repeat(2,1fr); } }
 @media (max-width: 640px) { .pricing-grid { grid-template-columns: 1fr; } }
+
+/* ── INSTRUCTIONS OVERLAY ── */
+#inst-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #07080d;
+  display: none;
+  flex-direction: column;
+  overflow-y: auto;
+}
+#inst-overlay .iov-topbar {
+  position: sticky;
+  top: 0;
+  background: #0c0e14;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 0 24px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  z-index: 10;
+}
+#inst-overlay .iov-body {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+  font-family: 'DM Sans', sans-serif;
+  color: #e2e8f0;
+}
+.iov-step {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 24px;
+  margin-bottom: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.iov-step:last-child { border-bottom: none; }
+.iov-num {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.iov-ng { background: rgba(212,168,67,0.12); border: 1px solid rgba(212,168,67,0.3); color: #d4a843; }
+.iov-nb { background: rgba(34,197,94,0.10); border: 1px solid rgba(34,197,94,0.25); color: #22c55e; }
+.iov-np { background: rgba(124,58,237,0.12); border: 1px solid rgba(124,58,237,0.3); color: #a78bfa; }
+.iov-h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  letter-spacing: .04em;
+  color: #e2e8f0;
+  margin-bottom: 10px;
+}
+.iov-p { font-size: 14px; color: #94a3b8; line-height: 1.7; margin-bottom: 12px; }
+.iov-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.iov-card {
+  background: #0c0e14;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.iov-ct {
+  font-size: 11px;
+  font-weight: 700;
+  color: #d4a843;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 5px;
+}
+.iov-cb { font-size: 13px; color: #94a3b8; line-height: 1.55; }
+.iov-fl { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
+.iov-fi {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #0c0e14;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 11px 13px;
+}
+.iov-fi em { font-size: 16px; flex-shrink: 0; font-style: normal; }
+.iov-fit { font-size: 13px; font-weight: 600; color: #e2e8f0; margin-bottom: 2px; }
+.iov-fib { font-size: 13px; color: #94a3b8; line-height: 1.5; }
+.iov-al { display: flex; flex-direction: column; gap: 8px; }
+.iov-ai {
+  background: #0c0e14;
+  border: 1px solid rgba(124,58,237,0.2);
+  border-radius: 8px;
+  padding: 11px 13px;
+  font-size: 13px;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+.iov-tip {
+  background: rgba(212,168,67,0.06);
+  border: 1px solid rgba(212,168,67,0.2);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 14px;
+  color: #d4a843;
+  margin-top: 12px;
+  line-height: 1.7;
+}
 </style>
 </head>
 <body>
@@ -1349,6 +1465,132 @@ footer {
   <div style="display:flex;align-items:center;gap:10px">
     <a href="#pricing" style="font-size:11px;color:var(--text2);text-decoration:none">Upgrade Now</a>
     <button onclick="closeBanner()" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;line-height:1">&#x2715;</button>
+  </div>
+</div>
+
+
+<!-- INSTRUCTIONS OVERLAY -->
+<div id="inst-overlay">
+  <div class="iov-topbar">
+    <div style="display:flex;align-items:center;gap:8px">
+      <div style="width:28px;height:28px;background:#d4a843;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#000">A</div>
+      <span style="font-weight:600;font-size:14px;color:#e2e8f0">Angel Market <span style="color:#d4a843">AI Pro</span> &mdash; How to Use</span>
+    </div>
+    <button onclick="closeInstructions()" style="font-size:12px;font-weight:600;padding:6px 16px;border-radius:6px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#94a3b8;cursor:pointer">&#x2715; Close</button>
+  </div>
+
+  <div class="iov-body">
+    <h1 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,6vw,54px);letter-spacing:.03em;line-height:1;margin-bottom:10px;color:#e2e8f0">HOW TO USE<br><span style="color:#d4a843">THE DASHBOARD</span></h1>
+    <p style="font-size:16px;color:#64748b;margin-bottom:48px">5 steps to start trading smarter. Read once, trade better every day.</p>
+
+    <!-- STEP 1 -->
+    <div class="iov-step">
+      <div class="iov-num iov-ng">1</div>
+      <div>
+        <div class="iov-h2">OPEN THE DASHBOARD</div>
+        <p class="iov-p">Click <strong style="color:#d4a843">Launch Dashboard</strong> or <strong style="color:#22c55e">Start Free Trial</strong> on the main page. The app opens full screen over the landing page. Crypto loads instantly. Stocks take about 15 seconds to pull from Yahoo Finance.</p>
+        <p class="iov-p">Hit <strong style="color:#e2e8f0">&#x21BB; Refresh</strong> anytime for the latest data. The dashboard auto-refreshes every 3 minutes on its own. Use the <strong style="color:#e2e8f0">Crypto</strong> and <strong style="color:#e2e8f0">Stocks</strong> tabs at the top to switch markets.</p>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="iov-step">
+      <div class="iov-num iov-nb">2</div>
+      <div>
+        <div class="iov-h2">READ THE TABLE</div>
+        <p class="iov-p">Each row is one asset, sorted by Edge Score highest first. Here is what every column means:</p>
+        <div class="iov-grid">
+          <div class="iov-card">
+            <div class="iov-ct">AI Score (1&ndash;10)</div>
+            <div class="iov-cb"><strong style="color:#22c55e">7.5+ = Buy.</strong> 4.5&ndash;7.5 = Hold. Below 4.5 = Sell. Based on momentum, volume, and market data. Recalculates every refresh.</div>
+          </div>
+          <div class="iov-card">
+            <div class="iov-ct">Signal</div>
+            <div class="iov-cb"><strong style="color:#22c55e">&#x25B2; BUY</strong> = strong upward momentum. <strong style="color:#d4a843">&#x25C6; HOLD</strong> = wait and watch. <strong style="color:#ef4444">&#x25BC; SELL</strong> = exit zone or downward pressure.</div>
+          </div>
+          <div class="iov-card">
+            <div class="iov-ct">RSI</div>
+            <div class="iov-cb"><strong style="color:#22c55e">Below 30 = Oversold</strong> &mdash; bounce is likely. <strong style="color:#ef4444">Above 70 = Overbought</strong> &mdash; reversal risk. Most traders miss oversold entries.</div>
+          </div>
+          <div class="iov-card">
+            <div class="iov-ct">Whale Signal</div>
+            <div class="iov-cb"><strong style="color:#22c55e">Accumulating</strong> = large wallets buying quietly before price moves. Usually 24&ndash;72 hours early. Your earliest possible signal.</div>
+          </div>
+          <div class="iov-card">
+            <div class="iov-ct">Catalyst</div>
+            <div class="iov-cb">Upcoming event in 7 days: earnings, Fed meeting, ETF inclusion, insider buy. <strong style="color:#e2e8f0">Get in before the event, not after.</strong></div>
+          </div>
+          <div class="iov-card">
+            <div class="iov-ct">Edge Score</div>
+            <div class="iov-cb">Combines AI Score, RSI, Whale, Volume, and Catalyst. <strong style="color:#e2e8f0">Table sorts by this. Highest = best opportunity right now.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="iov-step">
+      <div class="iov-num iov-np">3</div>
+      <div>
+        <div class="iov-h2">USE THE FILTERS</div>
+        <p class="iov-p">The filter bar cuts noise instantly. Most useful combinations:</p>
+        <div class="iov-fl">
+          <div class="iov-fi"><em>&#x1F7E2;</em><div><div class="iov-fit">Buy</div><div class="iov-fib">Assets with AI Score above 7.5. Your highest-conviction setups right now.</div></div></div>
+          <div class="iov-fi"><em>&#x26A1;</em><div><div class="iov-fit">Alerts &mdash; check this first every session</div><div class="iov-fib">Assets where 2+ signals fired simultaneously. <strong style="color:#e2e8f0">This is your jump signal.</strong> Review these before anything else.</div></div></div>
+          <div class="iov-fi"><em>&#x1F433;</em><div><div class="iov-fit">Whale</div><div class="iov-fib">Assets with active bullish whale signals. Large wallets moving before price does.</div></div></div>
+          <div class="iov-fi"><em>&#x2193;</em><div><div class="iov-fit">Top Losers</div><div class="iov-fib"><strong style="color:#e2e8f0">Losers with Oversold RSI are often the best bounce setups.</strong> Everyone sold already. You buy the dip before recovery.</div></div></div>
+          <div class="iov-fi"><em>&#x1F4CA;</em><div><div class="iov-fit">Stock category filters (Stocks tab only)</div><div class="iov-fib">S&amp;P 500, Nasdaq, Dividend, Low Risk, Penny. Switch to Stocks tab to see these filters appear.</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="iov-step">
+      <div class="iov-num iov-ng">4</div>
+      <div>
+        <div class="iov-h2">GET THE AI TRADING BRIEF</div>
+        <p class="iov-p">Click <strong style="color:#d4a843">&#x26A1; Analyze</strong> on any row. Claude AI reads every signal and returns a structured 4-part brief in seconds:</p>
+        <div class="iov-grid">
+          <div class="iov-card" style="border-color:rgba(212,168,67,0.2)">
+            <div class="iov-ct">SITUATION</div>
+            <div class="iov-cb">What all signals say right now, in 2 clear sentences. Instant setup understanding without reading a chart.</div>
+          </div>
+          <div class="iov-card" style="border-color:rgba(34,197,94,0.2)">
+            <div class="iov-ct" style="color:#22c55e">EDGE</div>
+            <div class="iov-cb">Why this might move before the crowd. <strong style="color:#e2e8f0">Names specific signals.</strong> This is the most important section.</div>
+          </div>
+          <div class="iov-card" style="border-color:rgba(239,68,68,0.2)">
+            <div class="iov-ct" style="color:#ef4444">RISK</div>
+            <div class="iov-cb">The single biggest threat to this trade. Read before acting. If you cannot accept this risk, do not enter.</div>
+          </div>
+          <div class="iov-card" style="border-color:rgba(167,139,250,0.2)">
+            <div class="iov-ct" style="color:#a78bfa">ACTION</div>
+            <div class="iov-cb">Entry zone, confirmation to wait for, stop loss, position sizing. <strong style="color:#e2e8f0">Specific numbers, not vague advice.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="iov-step">
+      <div class="iov-num iov-nb">5</div>
+      <div>
+        <div class="iov-h2">ALERTS AND SOUND</div>
+        <p class="iov-p">Alerts fire automatically when multiple signals align on one asset. You do not need to watch the screen constantly.</p>
+        <div class="iov-al">
+          <div class="iov-ai"><strong style="color:#a78bfa">Purple alert bar</strong> &mdash; appears at the top showing which asset fired and exactly which signals triggered it.</div>
+          <div class="iov-ai"><strong style="color:#a78bfa">Purple badge on the row</strong> &mdash; a &#x26A1; appears next to the asset name so you spot it instantly while scanning.</div>
+          <div class="iov-ai"><strong style="color:#a78bfa">Sound toggle</strong> &mdash; off by default. Click <strong style="color:#e2e8f0">&#x1F507; Sound Off</strong> in the top bar to enable audio pings when alerts fire. Works great when the app is in a background tab.</div>
+        </div>
+        <div class="iov-tip"><strong>Best daily workflow:</strong> Open app &rarr; click Alerts filter &rarr; check Edge Score column &rarr; click &#x26A1; Analyze on top pick &rarr; read ACTION &rarr; decide.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:32px;text-align:center">
+      <button onclick="closeInstructions()" style="font-size:13px;font-weight:600;padding:12px 32px;border-radius:8px;border:1px solid rgba(212,168,67,0.35);background:rgba(212,168,67,0.1);color:#d4a843;cursor:pointer">&#x2190; Back to Dashboard</button>
+    </div>
+
+    <div style="margin-top:40px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.06);font-size:12px;color:#475569;text-align:center">Angel Market AI Pro &nbsp;&middot;&nbsp; For educational purposes only. Not financial advice. &nbsp;&middot;&nbsp; <a href="https://www.MiamiAppStudio.com" target="_blank" style="color:#d4a843;text-decoration:none">Built by Miami App Studio</a></div>
   </div>
 </div>
 
@@ -2148,129 +2390,14 @@ function closeBanner(){
 
 /* ── INSTRUCTIONS NEW TAB ── */
 function openInstructions(){
-  var html='<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Angel Market AI Pro — How to Use</title>'
-  +'<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">'
-  +'<style>*{box-sizing:border-box;margin:0;padding:0}body{background:#07080d;color:#e2e8f0;font-family:DM Sans,sans-serif;line-height:1.6}a{color:#d4a843;text-decoration:none}'
-  +'.wrap{max-width:860px;margin:0 auto;padding:60px 24px 80px}'
-  +'.logo{display:flex;align-items:center;gap:10px;margin-bottom:48px;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,0.07)}'
-  +'.lsq{width:36px;height:36px;background:#d4a843;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:#000}'
-  +'.ltxt{font-family:Bebas Neue,sans-serif;font-size:22px;letter-spacing:.06em}.ltxt span{color:#d4a843}'
-  +'h1{font-family:Bebas Neue,sans-serif;font-size:clamp(36px,6vw,54px);letter-spacing:.03em;line-height:1;margin-bottom:12px}'
-  +'h1 span{color:#d4a843}.sub{font-size:16px;color:#94a3b8;margin-bottom:48px}'
-  +'.step{display:grid;grid-template-columns:56px 1fr;gap:24px;margin-bottom:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,0.06)}'
-  +'.step:last-of-type{border-bottom:none}'
-  +'.num{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:Bebas Neue,sans-serif;font-size:24px;flex-shrink:0}'
-  +'.ng{background:rgba(212,168,67,0.12);border:1px solid rgba(212,168,67,0.3);color:#d4a843}'
-  +'.nb{background:rgba(34,197,94,0.10);border:1px solid rgba(34,197,94,0.25);color:#22c55e}'
-  +'.np{background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.3);color:#a78bfa}'
-  +'h2{font-family:Bebas Neue,sans-serif;font-size:24px;letter-spacing:.04em;margin-bottom:10px}'
-  +'p{font-size:14px;color:#94a3b8;margin-bottom:12px}'
-  +'.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-bottom:14px}'
-  +'.card{background:#0c0e14;border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:12px 14px}'
-  +'.ct{font-size:11px;font-weight:700;color:#d4a843;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}'
-  +'.cb{font-size:13px;color:#94a3b8;line-height:1.55}'
-  +'.hi{color:#e2e8f0;font-weight:600}.gn{color:#22c55e;font-weight:600}.rd{color:#ef4444;font-weight:600}.gd{color:#d4a843;font-weight:600}.pu{color:#a78bfa;font-weight:600}'
-  +'.fl{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}'
-  +'.fi{display:flex;align-items:flex-start;gap:12px;background:#0c0e14;border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:11px 13px}'
-  +'.fi em{font-size:16px;flex-shrink:0;font-style:normal}'
-  +'.fit{font-size:13px;font-weight:600;color:#e2e8f0;margin-bottom:2px}'
-  +'.fib{font-size:13px;color:#94a3b8;line-height:1.5}'
-  +'.al{display:flex;flex-direction:column;gap:8px}'
-  +'.ai{background:#0c0e14;border:1px solid rgba(124,58,237,0.2);border-radius:8px;padding:11px 13px;font-size:13px;color:#94a3b8;line-height:1.6}'
-  +'.tip{background:rgba(212,168,67,0.06);border:1px solid rgba(212,168,67,0.2);border-radius:8px;padding:14px 16px;font-size:14px;color:#d4a843;margin-top:12px}'
-  +'footer{margin-top:48px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.06);font-size:12px;color:#475569;text-align:center}'
-  +'</style></head><body><div class="wrap">'
-
-  +'<div class="logo"><div class="lsq">A</div><div class="ltxt">ANGEL MARKET <span>AI PRO</span></div></div>'
-  +'<h1>HOW TO USE<br><span>THE DASHBOARD</span></h1>'
-  +'<p class="sub">5 steps to start trading smarter. Keep this page open as a reference.</p>'
-
-  // STEP 1
-  +'<div class="step"><div class="num ng">1</div><div>'
-  +'<h2>OPEN THE DASHBOARD</h2>'
-  +'<p>Click <span class="gd">Launch Dashboard</span> or <span class="gn">Start Free Trial</span> on the main page. The app opens full screen. Crypto loads instantly. Stocks take about 15 seconds.</p>'
-  +'<p>The <span class="hi">Refresh button</span> forces a new data pull. The app auto-refreshes every 3 minutes on its own. Use the Crypto and Stocks tabs at the top to switch markets.</p>'
-  +'</div></div>'
-
-  // STEP 2
-  +'<div class="step"><div class="num nb">2</div><div>'
-  +'<h2>READ THE TABLE</h2>'
-  +'<p>Each row is one asset, sorted by Edge Score (highest opportunity first). Here is what every column means:</p>'
-  +'<div class="grid">'
-  +'<div class="card"><div class="ct">AI Score (1-10)</div><div class="cb"><span class="gn">7.5+ = Buy.</span> 4.5-7.5 = Hold. Below 4.5 = Sell. Based on momentum, volume, and market data. Recalculates every refresh.</div></div>'
-  +'<div class="card"><div class="ct">Signal</div><div class="cb"><span class="gn">&#x25B2; BUY</span> = strong upward momentum. <span class="gd">&#x25C6; HOLD</span> = wait and watch. <span class="rd">&#x25BC; SELL</span> = exit zone or downward pressure.</div></div>'
-  +'<div class="card"><div class="ct">RSI</div><div class="cb"><span class="gn">Below 30 = Oversold</span> — bounce is likely. <span class="rd">Above 70 = Overbought</span> — reversal risk. Most traders miss oversold entries.</div></div>'
-  +'<div class="card"><div class="ct">Whale Signal</div><div class="cb"><span class="gn">Accumulating</span> = large wallets buying quietly before the price moves. Usually 24-72 hours early. Your earliest signal.</div></div>'
-  +'<div class="card"><div class="ct">Catalyst</div><div class="cb">Upcoming event in 7 days: earnings, Fed meeting, ETF inclusion, insider buy. <span class="hi">Position before the event, not after.</span></div></div>'
-  +'<div class="card"><div class="ct">Edge Score</div><div class="cb">Combines all signals into one number. <span class="hi">Table sorts by this automatically. Highest edge = best opportunity.</span></div></div>'
-  +'</div></div></div>'
-
-  // STEP 3
-  +'<div class="step"><div class="num np">3</div><div>'
-  +'<h2>USE THE FILTERS</h2>'
-  +'<p>The filter bar cuts noise instantly. Most useful combinations:</p>'
-  +'<div class="fl">'
-  +'<div class="fi"><em>&#x1F7E2;</em><div><div class="fit">Buy</div><div class="fib">Assets with AI Score above 7.5. Your highest-conviction setups right now.</div></div></div>'
-  +'<div class="fi"><em>&#x26A1;</em><div><div class="fit">Alerts — check this first every session</div><div class="fib">Assets where 2+ signals fired simultaneously. This is your jump signal. Act fast when you see these.</div></div></div>'
-  +'<div class="fi"><em>&#x1F433;</em><div><div class="fit">Whale</div><div class="fib">Assets with active bullish whale signals. Large wallets moving before price does.</div></div></div>'
-  +'<div class="fi"><em>&#x2193;</em><div><div class="fit">Top Losers</div><div class="fib"><span class="hi">Losers with Oversold RSI are often the best bounce setups.</span> Everyone sold already. You buy the dip before recovery.</div></div></div>'
-  +'<div class="fi"><em>&#x1F4CA;</em><div><div class="fit">Stock tab filters (S&amp;P 500, Nasdaq, Dividend, Low Risk, Penny)</div><div class="fib">Switch to Stocks tab to see these. Dividend for income, Penny for aggressive plays, Low Risk for conservative positions.</div></div></div>'
-  +'</div></div></div>'
-
-  // STEP 4
-  +'<div class="step"><div class="num ng">4</div><div>'
-  +'<h2>GET THE AI TRADING BRIEF</h2>'
-  +'<p>Click <span class="gd">&#x26A1; Analyze</span> on any row. Claude AI reads all signals and returns a 4-part brief in seconds:</p>'
-  +'<div class="grid">'
-  +'<div class="card" style="border-color:rgba(212,168,67,0.2)"><div class="ct">SITUATION</div><div class="cb">What the combined signals say right now. Big picture in 2 sentences so you understand the setup at a glance.</div></div>'
-  +'<div class="card" style="border-color:rgba(34,197,94,0.2)"><div class="ct" style="color:#22c55e">EDGE</div><div class="cb">Why this might move before the crowd. Names specific signals. <span class="hi">This is the most important section.</span></div></div>'
-  +'<div class="card" style="border-color:rgba(239,68,68,0.2)"><div class="ct" style="color:#ef4444">RISK</div><div class="cb">The single biggest threat to the trade. Read this before acting. If you cannot accept this risk, do not enter.</div></div>'
-  +'<div class="card" style="border-color:rgba(167,139,250,0.2)"><div class="ct" style="color:#a78bfa">ACTION</div><div class="cb">Entry zone, confirmation to wait for, stop loss placement, position sizing. Specific numbers, not vague advice.</div></div>'
-  +'</div>'
-  +'<p style="font-size:13px;color:#64748b">Generated fresh each time using current live data. Writes like a prop trader, not a disclaimer generator.</p>'
-  +'</div></div>'
-
-  // STEP 5
-  +'<div class="step"><div class="num nb">5</div><div>'
-  +'<h2>ALERTS AND SOUND</h2>'
-  +'<p>Alerts fire when multiple signals align on one asset. You do not need to watch the screen constantly.</p>'
-  +'<div class="al">'
-  +'<div class="ai"><span class="pu">Purple alert bar</span> appears at the top showing which asset fired and exactly which signals triggered it.</div>'
-  +'<div class="ai"><span class="pu">Purple badge</span> on the table row appears next to the asset name so you spot it while scanning.</div>'
-  +'<div class="ai"><span class="pu">Sound toggle</span> is off by default. Click the <span class="hi">&#x1F507; Sound Off</span> button in the top bar to enable audio pings when alerts fire.</div>'
-  +'</div>'
-  +'<div class="tip"><strong>Best daily workflow:</strong> Open app &rarr; Alerts filter &rarr; check Edge Score &rarr; click Analyze on top pick &rarr; read ACTION &rarr; decide.</div>'
-  +'</div></div>'
-
-  +'<footer>Angel Market AI Pro &nbsp;&middot;&nbsp; For educational purposes only. Not financial advice. &nbsp;&middot;&nbsp; <a href="https://www.MiamiAppStudio.com" target="_blank">Built by Miami App Studio</a></footer>'
-  +'</div></body></html>';
-  // Open via Blob URL - most reliable, no popup blocker, no size limit
-  try {
-    var blob = new Blob([html], {type: 'text/html'});
-    var url = URL.createObjectURL(blob);
-    var w = window.open(url, '_blank');
-    if (!w) {
-      // Fallback: show inline overlay
-      showInstructionsOverlay(html);
-    }
-  } catch(e) {
-    showInstructionsOverlay(html);
-  }
-}
-
-function showInstructionsOverlay(html) {
   var ov = document.getElementById('inst-overlay');
-  if (!ov) {
-    ov = document.createElement('div');
-    ov.id = 'inst-overlay';
-    ov.style.cssText = 'position:fixed;inset:0;z-index:99999;background:#07080d;overflow-y:auto;font-family:sans-serif';
-    var closeBtn = '<button onclick="document.getElementById(\'inst-overlay\').remove()" style="position:fixed;top:16px;right:20px;z-index:100000;font-size:13px;font-weight:600;padding:7px 16px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#e2e8f0;cursor:pointer">&#x2715; Close</button>';
-    ov.innerHTML = closeBtn + '<iframe srcdoc="' + html.replace(/"/g, '&quot;') + '" style="width:100%;height:100vh;border:none;background:#07080d" sandbox="allow-same-origin"></iframe>';
-    document.body.appendChild(ov);
-  } else {
-    ov.style.display = 'block';
-  }
+  if(ov){ ov.style.display='flex'; document.body.style.overflow='hidden'; }
 }
+function closeInstructions(){
+  var ov = document.getElementById('inst-overlay');
+  if(ov){ ov.style.display='none'; document.body.style.overflow=''; }
+}
+
 
 /* ── INIT ── */
 (function init(){
